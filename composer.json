@@ -5,8 +5,9 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.0.0",        
-        "barryvdh/laravel-dompdf": "^0.8.1",        
+        "php": ">=7.0.0",
+        "appzcoder/crud-generator": "^3.0",
+        "barryvdh/laravel-dompdf": "^0.8.1",
         "fideloper/proxy": "~3.3",
         "infyomlabs/laravel-generator": "5.5.x-dev",
         "ken/flash-me": "^0.0.4",
@@ -17,6 +18,7 @@
         "yajra/laravel-datatables-oracle": "^8.3"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <div class="container">
+    @include('admin.sidebar')
+    <div class="col-md-9">
     <table class="table table-bordered" id="orders-table">
         <thead>
             <tr>
@@ -17,10 +21,12 @@
             </tr>
         </thead>
     </table>
+</div>
+</div>
 @endsection
 
 @section('footer')
-
+<script type="text/javascript">
 $(function() {
     var template = Handlebars.compile($("#details-template").html());
     var table = $('#orders-table').DataTable({
@@ -46,7 +52,17 @@ $(function() {
             {{-- { data: 'created_at', name: 'created_at' },
             { data: 'updated_at', name: 'updated_at' } --}}
         ],
-        order: [[1, 'desc']]
+        order: [[1, 'desc']],
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                var input = document.createElement('input');
+                $(input).appendTo($(column.footer()).empty())
+                .on("change", function () {
+                    column.search($(this).val(), false, false, true).draw();
+                });
+            });
+        }
     });
 
     table.column( 1 ).visible( false );
@@ -85,7 +101,7 @@ $(function() {
         })
     }
 });
-
+</script>
 @endsection
 
 

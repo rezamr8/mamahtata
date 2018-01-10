@@ -20,6 +20,7 @@ class CreateOrderDetailsTable extends Migration
             $table->double('harga');
             $table->integer('jumlah');
             $table->double('sub_total');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

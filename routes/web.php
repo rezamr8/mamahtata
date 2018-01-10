@@ -18,7 +18,14 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::get('/orders/nohp',['uses' => 'OrderController@nohp', 'as' => 'orders.nohp']);
 	Route::get('/orders/namabarang',['uses'=>'OrderController@namabarang', 'as'=> 'orders.namabarang']);
 	Route::post('/orders/store', ['uses' => 'OrderController@store', 'as' => 'orders.store']);
+	Route::patch('/orders/update/{id}', ['uses' => 'OrderController@update', 'as' => 'orders.update']);
+	Route::post('/orders/updateorder/{id}', ['uses' => 'OrderController@updateOrder', 'as' => 'orders.updateorder']);
 	Route::get('/orders/ordernumber','OrderController@orderNumber');
+	Route::post('/orders/tambah/{idProduk}',['uses'=>'OrderController@tambahProduk', 'as' => 'orders.tambahproduk']);
+
+	//delete produk order detail
+	//Route::delete('ordersdetail/produk/{idproduk}', ['uses'=>'OrderController@hapusProduk', 'as'=>'ordersdetail.hapus']);
+	Route::delete('orders/{id}/produk/{idproduk}', ['uses'=>'OrderController@hapusProduk', 'as'=>'ordersdetail.hapus']);
 	//datatable
 	Route::get('/orders/data',['uses'=>'OrderController@getMasterData', 'as' => 'orders.data']);
 	Route::get('/orders/datadetail/{id}',['uses'=>'OrderController@getDetailsData', 'as' => 'orders.detail']);
@@ -29,10 +36,13 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::get('/users/admin/{id}',['uses'=>'UsersController@admin', 'as' => 'users.admin']);
 	Route::get('/users/not-admin/{id}',['uses'=>'UsersController@not_admin', 'as' => 'users.not_admin']);
 	Route::post('/users/store',['uses'=>'UsersController@store','as' => 'users.store']);
+
+	//Report 
+	Route::resource('report', 'ReportController');
+	Route::post('report/gettanggal',['uses'=>'ReportController@getTanggal','as'=>'report.tanggal']);
+	Route::post('report/pdf',['uses'=>'ReportController@getPdf','as'=>'report.pdf']);
+
+	Route::resource('produk', 'Admin\\ProdukController');
 });
 
-
-
-
-
-
+Route::resource('admin/customer', 'Admin\\CustomerController');

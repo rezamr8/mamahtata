@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')	
-	<a href="/products/create" class="btn btn-primary">add Product</a>
+	<div class="container">
+		<div class="col-md-9">
+			<a href="/products/create" class="btn btn-primary">add Product</a>
 	<hr>
 	<table class="table table-responsive">
 		<thead class="thead-light">
@@ -27,5 +29,8 @@
 			
 		</tbody>
 	</table>
+		</div>
+	</div>
+	
 
 @endsection

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
-use App\Product;
+use App\Produk;
 use App\Order;
+use App\OrderDetail;
 use Session;
 use Yajra\Datatables\Datatables;
 
@@ -26,7 +27,7 @@ class OrderController extends Controller
     {
         $customers = Customer::pluck('nama','id')->toArray();
 
-        $products = Product::pluck('nama','id')->toArray();        
+        $products = Produk::pluck('nama','id')->toArray();        
 
         return view('admin.orders.create')->with(['customers'=>$customers,'products'=>$products]);
     }
@@ -44,7 +45,7 @@ class OrderController extends Controller
 
     	$id = $request->id;
     	
-    	return Product::find($id);
+    	return Produk::find($id);
 
     }
 
@@ -76,9 +77,9 @@ class OrderController extends Controller
             $orderDetail->order_id = $order->id;
             $orderDetail->product_id = $request->input('produkid')[$i];       
             $orderDetail->harga = $request->input('tdharga')[$i];
-            $orderDetail->sub_total = $request->input('totharga')[$i];
+            $orderDetail->sub_total = $request->input('tdtotharga')[$i];
             $orderDetail->jumlah = $request->input('tdjumlah')[$i];
-            //$orderDetail-> = $request->input('tdketerangan')[$i]; 
+            $orderDetail->keterangan = $request->input('tdketerangan')[$i]; 
             $orderDetail->save();   
 
         }
@@ -93,17 +94,36 @@ class OrderController extends Controller
         //dd(Order::find($id)->orderdetail);
         
         return view('admin.orders.edit')->with([
-                                            //'orders'=>Order::find($id)->orderdetail()->with('product')->get(),
-                                            'orders'=>Order::find($id),
-                                            'customers'=>$customers,
-                                            'products' => Product::pluck('nama','id')->toArray()
-                                        ]);
+                                //'orders'=>Order::find($id)->orderdetail()->with('product')->get(),
+                                'orders'=>Order::find($id),
+                                'customers'=>$customers,
+                                'products' => Produk::pluck('nama','id')->toArray()
+                                ]);
     }
 
     
+    
     public function update(Request $request, $id)
     {
-        //
+        //dd($request->all());
+        $order = Order::findOrFail($id);
+        $order->total = $request->input('total');
+        $order->grand_total = $request->input('grandtotal');
+        $order->uang_muka = $request->input('uangmuka');
+        $order->update();
+        Session::flash('success', 'data Telah di Update' );
+        return redirect()->route('orders.index');
+
+    }
+
+    public function updateOrder(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->total = $request->input('total');
+        $order->grand_total = $request->input('grandtotal');
+        $order->uang_muka = $request->input('uangmuka');
+        $order->update();
+        return response()->json('sukses update order');
     }
 
     public static function orderNumber()
@@ -137,13 +157,15 @@ class OrderController extends Controller
         $orders = \App\Order::with(['customer'])->select('orders.*');
 
         return Datatables::of($orders)
+            ->filterColumn('customer', function($query, $keyword) {
+                $query->whereRaw("CONCAT(customer.nama,'-',customer.nama) like ?", ["%{$keyword}%"]);
+            })
             ->addColumn('details_url', function($order) {
                 return url('admin/orders/datadetail/' . $order->id);
                // return route('orders.detail'). $order->id;
             })->addColumn('action', function($order){
                 return '<a href="orders/'.$order->id.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
             })
-
             ->make(true);
     }
 
@@ -154,6 +176,41 @@ class OrderController extends Controller
         return Datatables::of($orders)->make(true);
     }
       
+    public function hapusProduk(Request $request, $id, $idproduk)
+    {
+       
+      OrderDetail::where('order_id',$id)->where('id',$idproduk)->delete();
+    
+      $order = Order::findOrFail($request->input('orderid'));
+
+      $order->total = $request->input('total');
+      $order->grand_total = $request->input('grandtotal');
+      $order->uang_muka = $request->input('uangmuka');
+      $order->update();
+
+    }
+
+    public function tambahProduk(Request $request, $idProduk)
+    {
+       // return $request->input('harga');
+        $order = Order::find($request->input('orderid'));
+
+        $order->orderdetail()->create([
+            'order_id' => $request->input('orderid'),
+            'product_id' => $request->input('product_id'),       
+            'harga' => $request->input('harga'),
+            'jumlah' => $request->input('jumlah'),
+            'sub_total' => $request->input('sub_total'),
+            'keterangan' => $request->input('keterangan')
+        ]);
+
+        
+        
+        return response()->json('sukses');
+               
+        
+
+    }
 
 
 

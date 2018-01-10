@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"  />
 
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    
 </head>
 <body>
     <div id="app">
@@ -79,26 +83,9 @@
         
         
         <div class="container">
-            @if(Auth::check())
-                <div class="sidebar col-md-4">        
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-info list-group-item-heading">Dashboard</li>
-                        <li class="list-group-item"><span class="glyphicon glyphicon-link"></span>{{-- <a href="{{ route('customers.index') }}"> --}} Customer{{-- </a> --}}</li>
-                        <li class="list-group-item"><span class="glyphicon glyphicon-apple"></span><a href="{{ route('products.index') }}"> Product</li>
-                        
-                    </ul>
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="{{ route('orders.index') }}">Order</a></li>
-                        <li class="list-group-item"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><a href="{{ route('orders.create') }}"> Buat Order</a></li>
-                    </ul>
-                    @if(Auth::user()->admin)
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="{{ route('users.index') }}">Users</a></li>
-                    </ul>        
-                    @endif            
-                </div>
-            @endif
-            <div class="col-md-8">
+           {{--  @include('admin.sidebar') --}}
+            
+            <div class="col-md-9">
                 @yield('content')
             </div>
         </div>
@@ -110,13 +97,16 @@
    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
    {{-- <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> --}}
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-   <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>   
    <script src="{{ asset('js/select2.min.js') }}"></script>
+   <script src="{{ asset('js/jquery.priceformat.min.js')}}"></script>
 
-    <script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+   
+    
     @yield('footer')    
-    </script>
+    
     <script id="details-template" type="text/x-handlebars-template">
         <div class="label label-info">Order @{{ harga }}'s OrderDetail</div>
         <table class="table details-table" id="orders-@{{id}}">

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Product;
+use App\Produk;
 class ProductsTableSeeder extends Seeder
 {
     /**
@@ -13,7 +13,7 @@ class ProductsTableSeeder extends Seeder
     {
     	
        
-        $product = factory(\App\Product::class, 10)->create();
+        $product = factory(\App\Produk::class, 10)->create();
 
         //php artisan db:seed --class=ProductsTableSeeder
     }

@@ -1,9 +1,14 @@
 @extends('layouts.app')
 @section('content')
 {{-- Customer Order --}}
-<form action="{{ route('orders.store') }}" method="POST">
+
+<div class="container">
+	@include('admin.sidebar')
+	<div class="col-md-9">
+	<form method="POST" action="{{ url('admin/orders/update/'.$orders->id) }}" >
 	{{ csrf_field() }}
-	
+	{{ method_field('PATCH') }}
+	<input type="hidden" name="orderid" id="orderid" value="{{$orders->id}}">
 	<div class="panel panel-info">
 		<div class="panel-heading">Customer</div>
 		<div class="panel-body">		
@@ -94,10 +99,19 @@
 					
 					@foreach($orders->orderdetail as $order)
 						<tr>
-							<td>{{$order->product->nama}}</td>
-							<td>{{$order->harga}}</td>
-							<td>{{$order->jumlah}}</td>
-							<td>{{$order->sub_total}}</td>
+							
+							<td><input type="hidden" id="orderDetailId" value="{{$order->id}}"><input type="hidden" name="produkid[]" value="{{$order->product->id}}"><input type="hidden" name="tdnamaproduk[]" value="{{$order->product->nama}}">{{$order->product->nama}}</td>
+							<td><input type="hidden" name="tdharga[]" readonly value="{{$order->harga}}">{{$order->harga}}</td>
+							<td><input type="hidden" name="tdjumlah[]" value="{{$order->jumlah}}">{{$order->jumlah}}</td>
+							<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="{{$order->sub_total}}">{{$order->sub_total}}</td>
+							<td><input type="hidden" name="tdketerangan[]" value="{{$order->keterangan}}">{{$order->keterangan}}</td>
+							<td>
+							
+
+                                <a href="javascript:void(0)" class="btn btn-danger btn-xs" id="delrow" data-id="{{ $order->id }}" data-token="{{ csrf_token() }}" >Delete</a>
+
+
+							</td>
 						</tr>
 					@endforeach
 					
@@ -136,10 +150,56 @@
 
 </form>
 @endsection
+	</div>
+</div>
 
 @section('footer')
 
+<script type="text/javascript">
+
+
+
 $(function(){
+
+	function updateOrderDetail(){
+		var orderid = $('#orderid').val();
+			var total = $('#total').val();
+			var uangmuka = $('#uangmuka').val();
+			var sum = total - uangmuka;
+			var token = $(this).data('token');
+
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+				type: 'POST',
+				url: '{{url("admin/orders/updateorder")}}/'+orderid, 
+				
+				data: {
+					
+					orderid:orderid, 
+					
+					total:total,
+					uangmuka:uangmuka,				
+					grandtotal:sum
+				
+				}, 
+
+			
+				
+				success: function(response){ 
+				
+				console.log('sukses update order');
+					
+				},
+				error: function (xhr, ajaxOptions, thrownError) { 
+					alert(thrownError); 
+					}
+			});
+	}
+	
 
 	$('#customer').select2();
 	$('#namaproduk').select2();
@@ -164,8 +224,8 @@ $(function(){
 	            //alert(response.alamat);
 	        },
 	        error: function (xhr, ajaxOptions, thrownError) { // Ketika ada error
-	            alert(thrownError); // Munculkan alert error
-	        }
+	           alert(thrownError); 
+			}
 	    });
 
 	});
@@ -173,101 +233,259 @@ $(function(){
 	$('#namaproduk').change(function(){   
 
 	    $.ajax({
-	        type: 'GET', // Method pengiriman data bisa dengan GET atau POST
+	        type: 'GET',
 	        //url: '/orders/namabarang', 
 	        url:'{{route("orders.namabarang")}}',
-	        data: { id: $('#namaproduk').val() }, // data yang akan dikirim ke file yang dituju   
+	        data: { id: $('#namaproduk').val() }, 
 
 	        dataType: 'json',
 	        
-	        success: function(response){ // Ketika proses pengiriman berhasil
+	        success: function(response){ 
 	           
 	            $('#harga').val(response.harga);
 	           
 	            //alert(response.harga);
 	            
 	        },
-	        error: function (xhr, ajaxOptions, thrownError) { // Ketika ada error
-	            alert(thrownError); // Munculkan alert error
-	        }
+	        error: function (xhr, ajaxOptions, thrownError) { 
+	            alert(thrownError); 
+				}
 	    });
 
 	});
 
-	$('#btnTambah').click(function(e){  
+    //$(document).on('click', '#btnTambah', function (e) { 
+
+	// $('#xs').click(function(e){
+	// 	e.preventDefault();
+	// 	//alert( $('#total').val() );
+	// 	    var orderid = $('#orderid').val();
+	// 		var total = $('#total').val();
+	// 		var uangmuka = $('#uangmuka').val();
+	// 		var sum = total - uangmuka;
+	// 		var token = $(this).data('token');
+
+	// 		$.ajaxSetup({
+	// 			headers: {
+	// 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	// 			}
+	// 		});
+	// 		$.ajax({
+	// 			type: 'POST',
+	// 			url: '{{url("admin/orders/updateorder")}}/'+orderid, 
+				
+	// 			data: {
+					
+	// 				orderid:orderid, 
+					
+	// 				total:total,
+	// 				uangmuka:uangmuka,				
+	// 				grandtotal:sum
+				
+	// 			}, 
+
+			
+				
+	// 			success: function(response){ 
+				
+	// 			console.log('sukses update order');
+					
+	// 			},
+	// 			error: function (xhr, ajaxOptions, thrownError) { 
+	// 				alert(thrownError); 
+	// 				}
+	// 		});
+	// });
+
+	//$(document).on('click', '#btnTambah', function (e) {	
+	$('#btnTambah').click(function(e){
 		e.preventDefault();
 		var produkid = $('#namaproduk option:selected').val();
 		var namaproduk = $('#namaproduk option:selected').text();
 		var harga = $('#harga').val();
 		var jumlah = $('#jumlah').val();
 		var keterangan = $('#keterangan').val();
-		var totharga = $('#totharga').val();
+		var tdtotharga = $('#totharga').val();
+		var orderid = $('#orderid').val();
         var markup = '<tr>'+
         
         '<td><input type="hidden" name="produkid[]" value="'+ produkid +'"><input type="hidden" name="tdnamaproduk[]" value="'+ namaproduk +'">'+ namaproduk +'</td>'+
         '<td class="tdharga"><input type="hidden" name="tdharga[]" readonly value="'+ harga +'">'+ harga +'</td>'+
 		'<td><input type="hidden" name="tdjumlah[]" value="'+ jumlah +'">'+ jumlah +'</td>'+
-		'<td><input type="hidden" name="totharga[]" value="'+ totharga +'">'+ totharga +'</td>'+
+		'<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="'+ tdtotharga +'">'+ tdtotharga +'</td>'+
 		'<td><input type="hidden" name="tdketerangan[]" value="'+ keterangan +'">'+ keterangan +'</td>'+
-		'<td><a href="javascript:void(0)" class="btn btn-primary" id="delrow" onclick="deleteRoworderdetail(this)">del</a></td>'
+		'<td><a href="javascript:void(0)" class="btn btn-danger btn-xs" id="delrow" data-id="{{ $order->id }}" data-token="{{ csrf_token() }}" >Delete</a></td>'
     	'</tr>';
 		
-		if(!jumlah)
-		{
-			alert('isi dahulu');
-		}else{
+	if(!jumlah)
+	{
+		alert('isi dahulu');
+		// $('#total').attr('value',500);
+		// $('#total').val(500);
+		return false;
+	}else{
 			$('table tbody').append(markup);
-		}
-
-        
-       {{--  $('#namaproduk').find('option:eq(0)').prop('selected', true); --}}
-        {{-- $('#customer').find('option:eq(0)').prop('selected', true); --}}
-        $('#jumlah').val("");
-        $('#harga').val("");
-        $('#totharga').val("");
-        $('#keterangan').val("");
-        $('#grandtotal').val("");
-         $('#uangmuka').val("");
-
-        {{-- $('#tbproduk').each(function(){
-		var sum = 0;
-		sum += Number($(this).html());
-		$('#total').val(sum);
-		}); --}}
+			$('#jumlah').val("");
+			$('#harga').val("");
+			$('#totharga').val("");
+			$('#keterangan').val("");
+			$('#grandtotal').val("");
+			//$('#uangmuka').val("");      
 
 		setInterval(function() {
 			var total = 0;
-			$('#tbproduk tbody .tdharga').each(function() {
+			$('#tbproduk tbody .tdtotal').each(function() {
 				total += parseInt($(this).text());
-			})
-			$('#total').val(total);
 
-			{{-- var grand_total = 0;
-			grand_total += total;
-			grand_total += parseInt($('#tax').val());
-			grand_total -= parseInt($('#discount').val());
+			});			
+			//total - uang muka
 
-			$('#grandtotal').val(grand_total); --}}
+			
+			var uangmuka = $('#uangmuka').val();
+			var sum = total - uangmuka;
+			$('#total').val(total);	
+			$('#total').attr('value',total);
+			$('#grandtotal').val(sum);
+			$('#grandtotal').attr('value',sum);
+
+			
 		},500);
 
-    });
+		$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+				type: 'POST',
+				url: '{{url("admin/orders/tambah")}}/'+produkid, 
+				
+				data: {
+					orderid:orderid, 
+					product_id: produkid,
+					harga:harga,
+					jumlah:jumlah,
+					sub_total:tdtotharga,
+					keterangan:keterangan,
+					
+				
+				}, 
 
-     // Find and remove selected table rows
+			
+				
+				success: function(response){ 
+				
+				console.log('sukses tambah id produk');
+					
+				},
+				error: function (xhr, ajaxOptions, thrownError) { 
+					alert(thrownError); 
+					}
+			});
+
+		
+	}
+	});
+
+	$(document).on('mouseup','#btnTambah',function(){
+		//setTimeout(function(){
+			//$('#xs').click();
+
+			// var orderid = $('#orderid').val();
+			// var total = $('#total').val();
+			// var uangmuka = $('#uangmuka').val();
+			// var sum = total - uangmuka;
+			// var token = $(this).data('token');
+
+			// $.ajaxSetup({
+			// 	headers: {
+			// 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			// 	}
+			// });
+			// $.ajax({
+			// 	type: 'POST',
+			// 	url: '{{url("admin/orders/updateorder")}}/'+orderid, 
+				
+			// 	data: {
+					
+			// 		orderid:orderid, 
+					
+			// 		total:total,
+			// 		uangmuka:uangmuka,				
+			// 		grandtotal:sum
+				
+			// 	}, 
+
+			
+				
+			// 	success: function(response){ 
+				
+			// 	console.log('sukses update order');
+					
+			// 	},
+			// 	error: function (xhr, ajaxOptions, thrownError) { 
+			// 		alert(thrownError); 
+			// 		}
+			// });
+		
+		//},1000);
+		//setTimeout(tambahProduk,1000)
+		setTimeout(updateOrderDetail,1000);
+		
+	});
+
+     
         
-       $(document).on('click', '#delrow', function () { // <-- changes
-		    // alert("aa");
+       $(document).on('click', '#delrow', function () {		   
+		    
 		     $(this).closest('tr').remove();
-		     $('#grandtotal').val("");
-		     return false;
+		     $('#grandtotal').val("");  
+		     
+		     setInterval(function() {
+				var total = 0;
+				$('#tbproduk tbody .tdtotal').each(function() {
+					total += parseInt($(this).text());
+				})
+				$('#total').val(total);
+				
+				var uangmuka = $('#uangmuka').val();
+				var sum = total - uangmuka;
+				
+				$('#grandtotal').val(sum);
+			},500);
+			
+		     
+
+				var id = $(this).data("id");				
+				var token = $(this).data('token');
+				
+				
+				$.ajax({
+					type: 'DELETE', 
+					
+				//url:'{{url("admin/order/produk")}}/'+id,
+				url:'produk/'+id,
+				data: {'id':id, '_method': 'DELETE', '_token' :token},    
+
+					//dataType: 'json',
+					
+					success: function(response){ 
+					
+						console.log('sukses');
+
+						
+					},
+					error: function (xhr, ajaxOptions, thrownError) { 
+						//alert(thrownError); 
+						console.log('error aja');
+					}
+				});
+
+				setTimeout(updateOrderDetail,1000);
+
 		 });
           
-		function deleteRoworderdetail(t) {
-
-			if(confirm("Are you sure ?")) {
-				$(t).parent().parent().remove();
-				
-			}									
-		}
+		
 		
         $('#uangmuka').keyup(function(){
 
@@ -287,11 +505,19 @@ $(function(){
 			$('#totharga').val(totharga);
 	    });
 
-	    $('#grandtotal').priceFormat({
-					      prefix: 'Rp ',
-					      centsSeparator: ',',
-					      thousandsSeparator: '.'
-					       });	
+	   {{-- var moneyFormat = wNumb({
+						    mark: ',',
+						    decimals: 2,
+						    thousand: '.',
+						    prefix: 'Rp. ',
+						    suffix: ''
+						  });
+
+		$('#grandtotal, #total, #uangmuka').html(moneyFormat.to(parseInt( $(this).val() ) ) ); --}}
+
+		{{--  $('#grandtotal, #total, #uangmuka').maskMoney({
+								prefix: 'Rp '
+								});  --}}
 
 
 
@@ -302,7 +528,7 @@ $(function(){
 
 });
 
-
+</script>
 
 
 

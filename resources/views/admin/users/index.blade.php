@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="panel panel-default">
+<div class="container">
+	@include('admin.sidebar')
+	<div class="col-md-9">
+
+	<div class="panel panel-default">
 	<div class="panel-heading">
 	Users 		
 	</div>
@@ -40,5 +44,8 @@
 		</table>
 	</div>
 </div>
+	</div>
+</div>
+
 
 @stop

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 {{-- Customer Order --}}
+<div class="container">
+@include('admin.sidebar')
+<div class="col-md-9">
 <form action="{{ route('orders.store') }}" method="POST">
 	{{ csrf_field() }}
 	
@@ -121,10 +124,12 @@
 </div>
 
 </form>
+</div>
+</div>
 @endsection
 
 @section('footer')
-
+<script type="text/javascript">
 $(function(){
 
 	$('#customer').select2();
@@ -187,13 +192,13 @@ $(function(){
 		var harga = $('#harga').val();
 		var jumlah = $('#jumlah').val();
 		var keterangan = $('#keterangan').val();
-		var totharga = $('#totharga').val();
+		var tdtotharga = $('#totharga').val();
         var markup = '<tr>'+
         
         '<td><input type="hidden" name="produkid[]" value="'+ produkid +'"><input type="hidden" name="tdnamaproduk[]" value="'+ namaproduk +'">'+ namaproduk +'</td>'+
         '<td class="tdharga"><input type="hidden" name="tdharga[]" readonly value="'+ harga +'">'+ harga +'</td>'+
 		'<td><input type="hidden" name="tdjumlah[]" value="'+ jumlah +'">'+ jumlah +'</td>'+
-		'<td><input type="hidden" name="totharga[]" value="'+ totharga +'">'+ totharga +'</td>'+
+		'<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="'+ tdtotharga +'">'+ tdtotharga +'</td>'+
 		'<td><input type="hidden" name="tdketerangan[]" value="'+ keterangan +'">'+ keterangan +'</td>'+
 		'<td><a href="javascript:void(0)" class="btn btn-primary" id="delrow" onclick="deleteRoworderdetail(this)">del</a></td>'
     	'</tr>';
@@ -223,7 +228,7 @@ $(function(){
 
 		setInterval(function() {
 			var total = 0;
-			$('#tbproduk tbody .tdharga').each(function() {
+			$('#tbproduk tbody .tdtotal').each(function() {
 				total += parseInt($(this).text());
 			})
 			$('#total').val(total);
@@ -241,7 +246,7 @@ $(function(){
      // Find and remove selected table rows
         
        $(document).on('click', '#delrow', function () { // <-- changes
-		    // alert("aa");
+		   
 		     $(this).closest('tr').remove();
 		     $('#grandtotal').val("");
 		     return false;
@@ -273,22 +278,14 @@ $(function(){
 			$('#totharga').val(totharga);
 	    });
 
-	    $('#grandtotal').priceFormat({
+	    {{--  $('#grandtotal').priceFormat({
 					      prefix: 'Rp ',
 					      centsSeparator: ',',
 					      thousandsSeparator: '.'
-					       });	
-
-
-
-        
-
-
-
-
+					       });	  --}}
 });
 
-
+</script>
 
 
 
