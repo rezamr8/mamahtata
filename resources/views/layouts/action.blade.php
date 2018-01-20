@@ -1,0 +1,2 @@
+{{$order->id}}
+{{-- <a href="orders/'.$order->id.'/edit" class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i> Edit</a><a href="orders/'.$order->id.'" class="btn btn-xs btn-danger" id="delO" data-id="'.$order->id.'"><i class="fa fa-trash-o"></i> Del</a> --}}

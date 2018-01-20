@@ -1,6 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
+
+<div class="container">
+@include('admin.sidebar')
+	<div class="col-md-9">
 <div class="panel panel-default">
 	<div class="panel-heading">CreateUser</div>
 	<div class="panel-body">
@@ -19,5 +22,7 @@
 			</div>
 		</form>
 	</div>
+</div>
+</div>
 </div>
 @stop

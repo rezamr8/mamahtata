@@ -1,13 +1,17 @@
+@extends('layouts.report')
+
+@section('content')
 
 
-<div class="container">
-
-  <div class="col-md-9">
     <div class="panel">
       <div class="panel-heading">
-        <div class="col-md-3">
-         Report Transaksi
-       </div>
+       <h3>
+
+         Report Transaksi Dari Tanggal {{ $data['from_date'] }} sampai tanggal {{ $data['to_date'] }}
+       </h3>
+       <br>
+       <br>
+
 
        
       <div style="clear:both"></div>
@@ -42,8 +46,8 @@
           <tr>
             <td colspan="3" class="text-center">Total Pemasukan</td>
 
-            <td class="total"></td>
-            <td class="piutang"></td>
+            <td class="total">{{ $data['total'] }}</td>
+            <td class="piutang">{{ $data['piutang'] }}</td>
           </tr>
 
         </tbody>
@@ -52,12 +56,11 @@
     </div>
   </div>
 </div>
-</div>
-</div>
 
 
+@stop
 
-{{-- @section('footer')
+@section('footer')
 <script type="text/javascript">
 
   $(document).ready(function(){
@@ -124,4 +127,3 @@
 </script>
 
 @stop
- --}}

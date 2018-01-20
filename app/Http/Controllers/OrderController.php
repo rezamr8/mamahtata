@@ -9,6 +9,7 @@ use App\Order;
 use App\OrderDetail;
 use Session;
 use Yajra\Datatables\Datatables;
+use Auth;
 
 
 class OrderController extends Controller
@@ -163,8 +164,17 @@ class OrderController extends Controller
             ->addColumn('details_url', function($order) {
                 return url('admin/orders/datadetail/' . $order->id);
                // return route('orders.detail'). $order->id;
-            })->addColumn('action', function($order){
-                return '<a href="orders/'.$order->id.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+            })
+            //->addColumn('action', 'layouts.action')->with('orders')
+            ->addColumn('action', function($orderx){
+
+                
+                    if(Auth::user()->admin)
+                return '<a href="orders/'.$orderx->id.'/edit" class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i> Edit</a><a href="orders/'.$orderx->id.'" class="btn btn-xs btn-danger" id="delO" data-id="'.$orderx->id.'"><i class="fa fa-trash-o"></i> Del</a>';
+                else{
+                    return 'print';
+                }
+                
             })
             ->make(true);
     }
@@ -188,6 +198,7 @@ class OrderController extends Controller
       $order->uang_muka = $request->input('uangmuka');
       $order->update();
 
+      return response()->json(['success' => 'Produk Berhasil Di Delete']);
     }
 
     public function tambahProduk(Request $request, $idProduk)
@@ -206,10 +217,14 @@ class OrderController extends Controller
 
         
         
-        return response()->json('sukses');
-               
-        
+        return response()->json(['success'=>'Order Produk Telah di Tambahkan',$order->orderdetail()->get()->last()]);
+    }
 
+    public function destroy($id)
+    {
+        Order::destroy($id);
+
+        return response()->json(['success'=>'Sukses Delete']);
     }
 
 

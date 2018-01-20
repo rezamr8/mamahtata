@@ -5,6 +5,8 @@
     <div class="container">
     @include('admin.sidebar')
     <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
     <table class="table table-bordered" id="orders-table">
         <thead>
             <tr>
@@ -21,6 +23,8 @@
             </tr>
         </thead>
     </table>
+    </div>
+</div>
 </div>
 </div>
 @endsection
@@ -100,6 +104,69 @@ $(function() {
             ]
         })
     }
+
+    //hapus Order 
+    // $('#delO').click(function(e){
+    //     e.preventDefault();
+    //     ConfirmDialog('Are you sure');
+    // });
+
+    $(document).on('click','#delO', function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+        //console.log($(this).closest('tr').remove());
+        var del = $(this).closest('tr');
+        ConfirmDialog('Are you sure',id,del);
+    });
+
+
+
+    function ConfirmDialog(message, id, del) {
+        $('<div></div>').appendTo('body')
+                        .html('<div><h6>'+message+'?</h6></div>')
+                        .dialog({
+                            modal: true, title: 'Delete Order', zIndex: 10000, autoOpen: true,
+                            width: 'auto', resizable: false,
+                            buttons: {
+                                Yes: function (m) {
+                                   toastr.success('sukses data di delete');
+                                   //console.log(id);             
+                                   //var token = $(this).data('token');
+
+                                   $.ajax({
+                                    type: 'DELETE', 
+                                    url:'orders/'+id,
+                                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                                    data: {'id':id, '_method': 'DELETE', "_token": "{{ csrf_token() }}"},    
+
+                                        success: function(response){ 
+                                        
+                                            console.log('delete Order');
+                                            del.remove();
+
+                                            
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) { 
+                                            //alert(thrownError); 
+                                            console.log('error  delete aja');
+                                        }
+                                });
+
+                                    $(this).dialog("close");
+                                },
+                                No: function () {                                                                 
+                                    $('body').append('<h1>Confirm Dialog Result: <i>No</i></h1>');
+
+                                    $(this).dialog("close");
+                                }
+                            },
+                            close: function (event, ui) {
+                                $(this).remove();
+                            }
+                        });
+    };
+
+
 });
 </script>
 @endsection

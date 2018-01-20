@@ -7,7 +7,7 @@
 <form action="{{ route('orders.store') }}" method="POST">
 	{{ csrf_field() }}
 	
-	<div class="panel panel-info">
+	<div class="panel panel-default">
 		<div class="panel-heading">Customer</div>
 		<div class="panel-body">		
 			<div class="form-group row">
@@ -32,7 +32,7 @@
 	
 {{-- tambah Table Produk --}}
   <div class="form-group">
-	<div class="panel panel-info">
+	<div class="panel panel-default">
 		<div class="panel-heading">Order Product</div>
 		<div class="panel-body">
 
@@ -98,29 +98,34 @@
 
 {{-- Order Detail --}}
 
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="form-group row">
+			<label for="total" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control form-control-md" id="total" name="total" required>
+			</div>	    
+		</div>
+		<div class="form-group row">
+		    <label for="uangmuka" class="col-md-2 col-form-label col-form-label-md font-weight-bold">UANG MUKA</label>
+		    <div class="col-md-8">
+		      <input type="text" class="form-control form-control-md" id="uangmuka" name="uangmuka">
+		    </div>	    
+		</div>
 
-<div class="form-group row">
-	<label for="total" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL</label>
-	<div class="col-md-8">
-		<input type="text" class="form-control form-control-md" id="total" name="total" required>
-	</div>	    
-</div>
-<div class="form-group row">
-    <label for="uangmuka" class="col-md-2 col-form-label col-form-label-md font-weight-bold">UANG MUKA</label>
-    <div class="col-md-8">
-      <input type="text" class="form-control form-control-md" id="uangmuka" name="uangmuka">
-    </div>	    
-</div>
+		<div class="form-group row">
+		    <label for="grandtotal" class="col-md-2 col-form-label col-form-label-md font-weight-bold">GRANDTOTAL</label>
+		    <div class="col-md-8">
+		      <input type="text" class="form-control form-control-md" id="grandtotal" name="grandtotal" required>
+		    </div>	    
+		</div>
 
-<div class="form-group row">
-    <label for="grandtotal" class="col-md-2 col-form-label col-form-label-md font-weight-bold">GRANDTOTAL</label>
-    <div class="col-md-8">
-      <input type="text" class="form-control form-control-md" id="grandtotal" name="grandtotal" required>
-    </div>	    
-</div>
+		<div class="form-group">
+			<button class="btn btn-primary" type="submit">Save</button>
+		</div>
 
-<div class="form-group">
-	<button class="btn btn-primary" type="submit">Save</button>
+		
+	</div>
 </div>
 
 </form>

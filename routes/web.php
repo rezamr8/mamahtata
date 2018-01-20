@@ -1,9 +1,9 @@
 <?php
 
-Route::get('/', 'HomeController@index')->name('home');
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
+Route::get('/', 'HomeController@index')->name('dashboard');
+//Route::get('/home', 'HomeController@index')->name('dashboard');
 
 Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
     Route::get('/products', ['uses' =>'ProductController@index', 'as' => 'products.index']);
@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::post('/orders/updateorder/{id}', ['uses' => 'OrderController@updateOrder', 'as' => 'orders.updateorder']);
 	Route::get('/orders/ordernumber','OrderController@orderNumber');
 	Route::post('/orders/tambah/{idProduk}',['uses'=>'OrderController@tambahProduk', 'as' => 'orders.tambahproduk']);
+	Route::delete('/orders/{id}',['uses' => 'OrderController@destroy', 'as' => 'orders.destroy']);
 
 	//delete produk order detail
 	//Route::delete('ordersdetail/produk/{idproduk}', ['uses'=>'OrderController@hapusProduk', 'as'=>'ordersdetail.hapus']);

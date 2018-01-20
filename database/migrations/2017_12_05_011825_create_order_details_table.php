@@ -22,6 +22,7 @@ class CreateOrderDetailsTable extends Migration
             $table->double('sub_total');
             $table->string('keterangan')->nullable();
             $table->timestamps();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 

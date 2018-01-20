@@ -36,15 +36,19 @@ class ReportController extends Controller
 
     public function getPdf(Request $request)
     {
-        // $pdf = \App::make('dompdf.wrapper');
-        // $pdf->loadHTML('<h1>Test</h1>');
-        // return $pdf->download('reza.pdf');
+        
+        $data=[
+            'from_date' => $request->get('from_date'),
+            'to_date' => $request->get('to_date'),
+            'total' => $request->get('total'),
+            'piutang' => $request->get('piutang')
+        ];
         $from_date = $request->get('from_date');
         $to_date = $request->get('to_date');
 
         $order = Order::whereBetween('created_at',[$from_date." 00:00:00",$to_date." 23:59:59"])->get();
 
-         $pdf = PDF::loadView('admin.report.report-pdf',compact('order'));
+         $pdf = PDF::loadView('admin.report.report-pdf',compact('order','data'));
         
         return $pdf->download('invoice.pdf');
     }

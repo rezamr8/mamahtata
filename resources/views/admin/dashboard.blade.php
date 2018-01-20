@@ -10,7 +10,7 @@
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
-                        Your application's dashboard.
+                        Selamat Datang {{ Auth::user()->name }}
                     </div>
                 </div>
             </div>
