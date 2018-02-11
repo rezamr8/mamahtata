@@ -15,12 +15,18 @@ class CreateOrderDetailsTable extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id');
+            $table->integer('order_id')->unsigned();
             $table->integer('product_id');
+            $table->integer('panjang');
+            $table->integer('lebar');
+            $table->integer('luas');
             $table->double('harga');
+            $table->double('discount')->nullable();
             $table->integer('jumlah');
             $table->double('sub_total');
+            $table->double('biaya_setting');           
             $table->string('keterangan')->nullable();
+            $table->double('keuntungan');
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });

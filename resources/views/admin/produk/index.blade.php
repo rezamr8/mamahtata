@@ -30,17 +30,20 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Nama</th><th>Harga</th><th>Stok</th><th>Actions</th>
+                                        <th>#</th><th>Nama</th><th>Harga Beli</th> <th>Harga Jual</th><th>Stok</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($produk as $item)
                                     <tr>
                                         <td>{{ $loop->iteration or $item->id }}</td>
-                                        <td>{{ $item->nama }}</td><td>{{ $item->harga }}</td><td>{{ $item->stok }}</td>
+                                        <td>{{ $item->nama }}</td><td>{{ $item->harga_beli }}</td><td>{{ $item->harga_jual }}</td><td>{{ $item->stok }}</td>
                                         <td>
                                             <a href="{{ url('/admin/produk/' . $item->id) }}" title="View Produk"><button class="btn btn-info btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            
+                                            @can('Edit')
                                             <a href="{{ url('/admin/produk/' . $item->id . '/edit') }}" title="Edit Produk"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            @endcan
 
                                             <form method="POST" action="{{ url('/admin/produk' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                                 {{ method_field('DELETE') }}

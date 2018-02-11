@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth','isAdmin']);
+        //$this->middleware(['auth','kasir']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +27,8 @@ class ProdukController extends Controller
 
         if (!empty($keyword)) {
             $produk = Produk::where('nama', 'LIKE', "%$keyword%")
-                ->orWhere('harga', 'LIKE', "%$keyword%")
+                ->orWhere('harga_beli', 'LIKE', "%$keyword%")
+                ->orWhere('harga_jual', 'LIKE', "%$keyword%")
                 ->orWhere('stok', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
         } else {
@@ -55,7 +61,8 @@ class ProdukController extends Controller
         $this->validate(request(),[
 
             'nama' => 'required',
-            'harga' => 'required',
+            'harga_beli' => 'required',
+            'harga_jual' => 'required',
             'stok' => 'required'
 
         ]);

@@ -4,47 +4,49 @@
 <div class="container">
 	@include('admin.sidebar')
 	<div class="col-md-9">
+	{{-- <div class="col-lg-10 col-lg-offset-1"> --}}
+    <h1><i class="fa fa-users"></i> User Administration <a href="{{ route('roles.index') }}" class="btn btn-default pull-right">Roles</a>
+    <a href="{{ route('permissions.index') }}" class="btn btn-default pull-right">Permissions</a></h1>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
 
-	<div class="panel panel-default">
-	<div class="panel-heading">
-	Users 		
-	</div>
-	<div class="panel-body">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>user</th>
-					<th>email</th>
-					<th>Permission</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if($users->count() > 0)
-				@foreach($users as $user)
-					<tr>
-						<td>{{$user->name}}</td>
-						<td>{{$user->email}}</td>
-						<td>
-							@if($user->admin)
-								<a href="{{ route('users.not_admin',['id'=>$user->id]) }}" class="btn btn-xs btn-danger">Remove Permission</a>
-							@else
-								<a href="{{ route('users.admin',['id'=>$user->id]) }}" class="btn btn-xs btn-success">Make Admin</a>
-							@endif
-						</td>
-						<td>Delete</td>
-					</tr>
-				@endforeach
-				@else
-					<tr>
-						<td colspan="4" class="text-center"></td>
-					</tr>
-				@endif
-			</tbody>
-		</table>
-	</div>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date/Time Added</th>
+                    <th>User Roles</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($users as $user)
+                <tr>
+
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->created_at }}</td>
+                    <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
+                    <td>
+                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-info pull-left" style="margin-right: 3px;">Edit</a>
+
+                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
+                    {!! Form::submit('Delete', ['class' => 'btn btn-xs btn-danger']) !!}
+                    {!! Form::close() !!}
+
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+
+        </table>
+    </div>
+
+    <a href="{{ route('users.create') }}" class="btn btn-xs btn-success">Add User</a>
+
 </div>
-	</div>
 </div>
 
 

@@ -15,10 +15,15 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::get('/orders', ['uses'=>'OrderController@index','as' => 'orders.index']);
 	Route::get('/orders/create', ['uses'=>'OrderController@create','as' => 'orders.create']);
 	Route::get('/orders/{id}/edit', ['uses'=>'OrderController@edit','as' => 'orders.edit']);
+	Route::get('/orders/{id}/bayar', ['uses'=>'OrderController@bayar','as' => 'orders.bayar']);
+	Route::get('/orders/printbayar/{id}', ['uses'=>'OrderController@printbayar','as' => 'orders.printbayar']);
+
+
 	Route::get('/orders/nohp',['uses' => 'OrderController@nohp', 'as' => 'orders.nohp']);
 	Route::get('/orders/namabarang',['uses'=>'OrderController@namabarang', 'as'=> 'orders.namabarang']);
 	Route::post('/orders/store', ['uses' => 'OrderController@store', 'as' => 'orders.store']);
 	Route::patch('/orders/update/{id}', ['uses' => 'OrderController@update', 'as' => 'orders.update']);
+	Route::patch('/orders/updatebayar/{id}', ['uses' => 'OrderController@updatebayar', 'as' => 'orders.updatebayar']);
 	Route::post('/orders/updateorder/{id}', ['uses' => 'OrderController@updateOrder', 'as' => 'orders.updateorder']);
 	Route::get('/orders/ordernumber','OrderController@orderNumber');
 	Route::post('/orders/tambah/{idProduk}',['uses'=>'OrderController@tambahProduk', 'as' => 'orders.tambahproduk']);
@@ -32,18 +37,31 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::get('/orders/datadetail/{id}',['uses'=>'OrderController@getDetailsData', 'as' => 'orders.detail']);
 
 	// user
-	Route::get('/users',['uses'=>'UsersController@index','as' => 'users.index']);
-	Route::get('/users/create',['uses'=>'UsersController@create','as' => 'users.create']);
-	Route::get('/users/admin/{id}',['uses'=>'UsersController@admin', 'as' => 'users.admin']);
-	Route::get('/users/not-admin/{id}',['uses'=>'UsersController@not_admin', 'as' => 'users.not_admin']);
-	Route::post('/users/store',['uses'=>'UsersController@store','as' => 'users.store']);
+	// Route::get('/users',['uses'=>'UsersController@index','as' => 'users.index']);
+	// Route::get('/users/create',['uses'=>'UsersController@create','as' => 'users.create']);
+	// Route::get('/users/admin/{id}',['uses'=>'UsersController@admin', 'as' => 'users.admin']);
+	// Route::get('/users/not-admin/{id}',['uses'=>'UsersController@not_admin', 'as' => 'users.not_admin']);
+	// Route::post('/users/store',['uses'=>'UsersController@store','as' => 'users.store']);
+	// Route::get('/users/changepassword',['uses'=>'UsersController@showChangePasswordForm', 'as' => 'users.edit']);
+	// Route::post('/users/changePassword','UsersController@changePassword')->name('changePassword');
+
+
 
 	//Report 
+	Route::get('report/stok',['uses'=>'ReportController@stok', 'as'=>'report.stok']);
 	Route::resource('report', 'ReportController');
 	Route::post('report/gettanggal',['uses'=>'ReportController@getTanggal','as'=>'report.tanggal']);
 	Route::post('report/pdf',['uses'=>'ReportController@getPdf','as'=>'report.pdf']);
 
+
 	Route::resource('produk', 'Admin\\ProdukController');
+
+	Route::resource('users', 'UsersController');
+
+	Route::resource('roles', 'RoleController');
+
+	Route::resource('permissions', 'PermissionController');
+
 });
 
 Route::resource('admin/customer', 'Admin\\CustomerController');

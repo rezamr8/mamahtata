@@ -8,10 +8,10 @@
 	{{ csrf_field() }}
 	
 	<div class="panel panel-default">
-		<div class="panel-heading">Customer</div>
+		<div class="panel-heading">CUSTOMER</div>
 		<div class="panel-body">		
 			<div class="form-group row">
-				<label for="customer" class="col-md-2 col-form-label col-form-label-md font-weight-bold">customer</label>
+				<label for="customer" class="col-md-2 col-form-label col-form-label-md font-weight-bold">CUSTOMER</label>
 				<div class="col-md-8">
 					<select class="form-control form-control-md" id="customer" name="customer" required> 
 						<option value=""></option>
@@ -22,9 +22,9 @@
 				</div>	    
 			</div>
 			<div class="form-group row">
-				<label for="nohp" class="col-md-2 col-form-label col-form-label-md font-weight-bold" >Handphone</label>
+				<label for="nohp" class="col-md-2 col-form-label col-form-label-md font-weight-bold" >HANDPHONE</label>
 				<div class="col-md-8">
-					<input type="text" class="form-control form-control-md" id="nohp" name="" readonly="readonly">	  
+					<input type="text" class="form-control form-control-md" id="nohp" name="nohp" readonly="readonly">	  
 				</div>  
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 		<div class="panel-body">
 
 			<div class="form-group row">
-				<label for="namabarang" class="col-md-2 col-form-label">nama produk</label>
+				<label for="namabarang" class="col-md-2 col-form-label">PRODUK</label>
 				<div class="col-md-8">
 				<select name="namaproduk" id="namaproduk">
 					<option value="0">Pilih Produk</option>
@@ -48,29 +48,77 @@
 				</div>
 			</div>
 
-			<div class="form-group row">
-			    <label for="harga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">harga</label>
-			    <div class="col-md-8">
-			      <input type="text" class="form-control form-control-md" id="harga" name="harga" readonly>
-			    </div>	    
+			<div class="form-group controls row">
+			    <label for="harga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">HARGA</label>
+			    <div class="col-md-3">
+			      <input type="text" class="form-control form-control-md" id="fharga" readonly>
+			      <input type="hidden" class="form-control form-control-md" id="harga" name="harga" readonly>
+			      <input type="hidden" class="form-control form-control-md" id="hargabeli" name="hargabeli" readonly>
+			    </div>
+			 	<label for="discount" class="col-md-2 col-form-label col-form-label-md font-weight-bold"> DISCOUNT</label>
+			    <div class="col-md-3">
+			    	<input type="text" class="form-control form-control-md" id="fdisc" >
+			    	<input type="hidden" class="form-control form-control-md" id="disc" name="disc">
+			    </div>
+
 			</div>
 
+
+			<div class="form-group controls row">
+				<label for="panjang" class="col-md-2 font-weight-bold">PANJANG</label>
+				<div class="col-md-3">
+					<input type="number" class="form-control form-control-md" id="panjang"  name="panjang" >
+				</div>
+				<label for="lebar" class="col-md-2 font-weight-bold">LEBAR</label>
+				<div class="col-md-3">
+					<input type="number" class="form-control form-control-md" id="lebar" name="lebar" >
+				</div>
+			</div>	
+
 			<div class="form-group row">
-			    <label for="jumlah" class="col-md-2 col-form-label col-form-label-md font-weight-bold">jumlah</label>
-			    <div class="col-md-8">
+				<label for="luas" class="col-md-2 font-weight-bold">LUAS</label>
+				<div class="col-md-3">
+					<input type="text" class="form-control form-control-md" id="luas" name="luas" required readonly>
+				</div>
+				<label for="hargasatuan" class="col-md-2 font-weight-bold">TOTAL HARGA</label>
+				<div class="col-md-3">
+					<input type="text" class="form-control form-control-md" id="fhargasatuan" required readonly>
+					<input type="hidden" class="form-control form-control-md" id="hargasatuan" name="hargasatuan" required readonly>
+				</div>
+				
+				<div class="col-md-2">
+					<input type="hidden" class="form-control form-control-md" id="thbeli" name="thbeli" required readonly>
+				</div>
+			</div>
+
+			
+
+			<div class="form-group row">
+			    <label for="jumlah" class="col-md-2 col-form-label col-form-label-md font-weight-bold">JUMLAH</label>
+			    <div class="col-md-2">
 			      <input type="text" class="form-control form-control-md" id="jumlah" name="jumlah" >
 			    </div>	    
 			</div>
 
 			<div class="form-group row">
-			    <label for="totharga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">totharga</label>
+			    <label for="totharga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL HARGA</label>
 			    <div class="col-md-8">
-			      <input type="text" class="form-control form-control-md" id="totharga" required readonly="readonly" name="totharga">
+			      <input type="text" class="form-control form-control-md" id="ftotharga" required readonly="readonly">
+			      <input type="hidden" class="form-control form-control-md" id="totharga" required readonly="readonly" name="totharga">
+			      <input type="hidden" class="form-control form-control-md" id="tothargabeli" required readonly="readonly" name="tothargabeli">
 			    </div>	    
 			</div>
 
 			<div class="form-group row">
-			    <label for="keterangan" class="col-md-2 col-form-label col-form-label-md font-weight-bold">keterangan</label>
+			    <label for="biayasetting" class="col-md-2 col-form-label col-form-label-md font-weight-bold">BIAYA SETTING</label>
+			    <div class="col-md-8">
+			      <input type="text" class="form-control form-control-md" id="fbiayasetting">
+			      <input type="hidden" class="form-control form-control-md" id="biayasetting" name="biayasetting">
+			    </div>	    
+			</div>
+
+			<div class="form-group row">
+			    <label for="keterangan" class="col-md-2 col-form-label col-form-label-md font-weight-bold">KETERANGAN</label>
 			    <div class="col-md-8">
 			      <input type="text" class="form-control form-control-md" id="keterangan" name="keterangan">
 			    </div>	    
@@ -78,14 +126,19 @@
 
 			<table class="table table-striped table-bordered table-light" id="tbproduk">
 				<thead>
-					<tr align="center">
+					<tr>
 						
-						<th align="center">Nama</th>
-						<th align="center">Harga</th>
-						<th align="center">Jumlah</th>
-						<th align="center">Total</th>
-						<th align="center">keterangan</th>
-						<th align="center"><a href="#" class="btn btn-primary" id="btnTambah">Tambah Produk</a></th>
+						<th align="center">NAMA</th>
+						<th align="center">HARGA</th>
+						<th align="center">DISC</th>
+						<th align="center">PANJANG</th>
+						<th align="center">LEBAR</th>
+						<th align="center">LUAS</th>
+						<th align="center">JUMLAH</th>
+						<th align="center">TOTAL</th>
+						<th align="center">JASA</th>
+						<th align="center">KETERANGAN</th>						
+						<th align="center"><a href="#" class="btn btn-xs btn-primary" id="btnTambah">ADD</a></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -100,25 +153,31 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
+
 		<div class="form-group row">
-			<label for="total" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL</label>
+			<label for="totalproduk" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL PRODUK</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control form-control-md" id="total" name="total" required>
+				<input type="text" class="form-control form-control-md" id="ftotalproduk" required readonly>
+				<input type="hidden" class="form-control form-control-md" id="totalproduk" name="totalproduk" required readonly>
 			</div>	    
-		</div>
-		<div class="form-group row">
-		    <label for="uangmuka" class="col-md-2 col-form-label col-form-label-md font-weight-bold">UANG MUKA</label>
-		    <div class="col-md-8">
-		      <input type="text" class="form-control form-control-md" id="uangmuka" name="uangmuka">
-		    </div>	    
 		</div>
 
 		<div class="form-group row">
-		    <label for="grandtotal" class="col-md-2 col-form-label col-form-label-md font-weight-bold">GRANDTOTAL</label>
-		    <div class="col-md-8">
-		      <input type="text" class="form-control form-control-md" id="grandtotal" name="grandtotal" required>
-		    </div>	    
+			<label for="totalbiayasetting" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL BIAYA SETTING</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control form-control-md" id="ftotalbiayasetting" required readonly>
+				<input type="hidden" class="form-control form-control-md" id="totalbiayasetting" name="totalbiayasetting" required>
+			</div>	    
 		</div>
+
+		<div class="form-group row">
+			<label for="total" class="col-md-2 col-form-label col-form-label-md font-weight-bold">GRAND TOTAL</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control form-control-md" id="fgrandtotal" required readonly>
+				<input type="hidden" class="form-control form-control-md" id="grandtotal" name="grandtotal" required>
+			</div>	    
+		</div>
+		
 
 		<div class="form-group">
 			<button class="btn btn-primary" type="submit">Save</button>
@@ -137,14 +196,59 @@
 <script type="text/javascript">
 $(function(){
 
+	var rupiah = {
+             aSep: '.', 
+             aDec: ',', 
+             aSign: 'Rp '
+            };
+	
+	
 	$('#customer').select2();
 	$('#namaproduk').select2();
+
+	$('#fdisc').bind('blur focusout',function(){
+		$('#jumlah').val('');
+		$('#ftotharga').val('');
+		$('#totharga').val('');
+		$('#tothargabeli').val('');
+		$('#keuntungan').val('');
+		$('#jumlah').focus();
+	});
+	
+	function ukurluas()
+	{
+		var panjang = $('#panjang').val();
+		var lebar = $('#lebar').val();
+		var luas = 0;
+		var hargasatuan = 0;
+		var thbeli = 0;
+
+		luas = panjang * lebar;
+
+		if (luas <= 1) {
+			luas = 1;
+		}
+		$('#luas').val(luas);
+		
+		$('#fhargasatuan').autoNumeric('init', rupiah);
+		hargasatuan = $('#harga').val();
+		hargasatuan = hargasatuan*luas;
+		$('#hargasatuan').val(hargasatuan);
+		$('#fhargasatuan').autoNumeric('set',hargasatuan);
+
+		thbeli = $('#hargabeli').val();
+		thbeli = thbeli*luas;
+		$('#thbeli').val(thbeli);
+	}
+
+	$('#panjang').keyup(function(){ ukurluas() });
+	$('#lebar').keyup(function(){ ukurluas() });	
 	
     $('#customer').change(function(){   
 
 	    $.ajax({
 	        type: 'GET', 
-	        //url: '/orders/nohp', 
+	        
 	        url: '{{route("orders.nohp")}}', 
 	        data: { id: $('#customer').val() }, 
 
@@ -154,13 +258,13 @@ $(function(){
 	                e.overrideMimeType("application/json;charset=UTF-8");
 	            }
 	        },
-	        success: function(response){ // Ketika proses pengiriman berhasil
+	        success: function(response){ 
 	           
 	            $('#nohp').val(response.no_hp);
-	            //alert(response.alamat);
+	           
 	        },
-	        error: function (xhr, ajaxOptions, thrownError) { // Ketika ada error
-	            alert(thrownError); // Munculkan alert error
+	        error: function (xhr, ajaxOptions, thrownError) { 
+	            alert(thrownError); 
 	        }
 	    });
 
@@ -169,82 +273,154 @@ $(function(){
 	$('#namaproduk').change(function(){   
 
 	    $.ajax({
-	        type: 'GET', // Method pengiriman data bisa dengan GET atau POST
-	        //url: '/orders/namabarang', 
+	        type: 'GET',
 	        url:'{{route("orders.namabarang")}}',
-	        data: { id: $('#namaproduk').val() }, // data yang akan dikirim ke file yang dituju   
+	        data: { id: $('#namaproduk').val() },    
 
 	        dataType: 'json',
 	        
-	        success: function(response){ // Ketika proses pengiriman berhasil
+	        success: function(response){ 
+	        	
+	            $('#harga').val(response.harga_jual);
+	             $('#hargabeli').val(response.harga_beli);
+
+	             $('#fharga').autoNumeric('init', {aSep: '.',aDec:',',aSign:'Rp '});
+	            var harga = $('#harga').val();
+	            $('#fharga').autoNumeric('set',harga);
 	           
-	            $('#harga').val(response.harga);
 	           
-	            //alert(response.harga);
 	            
 	        },
-	        error: function (xhr, ajaxOptions, thrownError) { // Ketika ada error
-	            alert(thrownError); // Munculkan alert error
+	        error: function (xhr, ajaxOptions, thrownError) { 
+	            alert(thrownError);
 	        }
 	    });
 
 	});
+
+	$('#jumlah').keyup(function(){
+		var jumlah = $('#jumlah').val();
+		var hargasatuan = $('#hargasatuan').val();
+		var thbeli = $('#thbeli').val();
+		var disc = $('#disc').val();
+		var totharga= (jumlah * hargasatuan) - disc;
+		var tothargabeli = (jumlah * thbeli) - disc;
+		$('#totharga').val(totharga);
+		$('#tothargabeli').val(tothargabeli);
+		$('#ftotharga').autoNumeric('init', rupiah);
+		$('#ftotharga').autoNumeric('set', totharga);
+	});
+
+	
 
 	$('#btnTambah').click(function(e){  
 		e.preventDefault();
 		var produkid = $('#namaproduk option:selected').val();
 		var namaproduk = $('#namaproduk option:selected').text();
 		var harga = $('#harga').val();
+		var hargabeli = $('#hargabeli').val();
+		var hargasatuan = $('#hargasatuan').val();
+		var panjang = $('#panjang').val();
+		var lebar = $('#lebar').val();
+		var luas = $('#luas').val();
 		var jumlah = $('#jumlah').val();
 		var keterangan = $('#keterangan').val();
 		var tdtotharga = $('#totharga').val();
+		var tothargabeli = $('#tothargabeli').val();
+		var biayasetting = $('#biayasetting').val();
+		var disc = $('#disc').val();
+
+		var fdisc = $('#fdisc').val();
+        var fharga = $('#fharga').val();
+        var fhargasatuan = $('#fhargasatuan').val();
+        var ftotharga = $('#ftotharga').val();
+        var fbiayasetting = $('#fbiayasetting').val();
+
+		var untung = tdtotharga - tothargabeli;
         var markup = '<tr>'+
         
         '<td><input type="hidden" name="produkid[]" value="'+ produkid +'"><input type="hidden" name="tdnamaproduk[]" value="'+ namaproduk +'">'+ namaproduk +'</td>'+
         '<td class="tdharga"><input type="hidden" name="tdharga[]" readonly value="'+ harga +'">'+ harga +'</td>'+
+        '<td><input type="hidden" name="tddisc[]" readonly value="'+ disc +'">'+ disc +'</td>'+
+        '<td><input type="hidden" name="tdpanjang[]" value="'+ panjang +'">'+ panjang +'</td>'+
+        '<td><input type="hidden" name="tdlebar[]" value="'+ lebar +'">'+ lebar +'</td>'+
+        '<td><input type="hidden" name="tdluas[]" value="'+ luas +'">'+ luas +'</td>'+
 		'<td><input type="hidden" name="tdjumlah[]" value="'+ jumlah +'">'+ jumlah +'</td>'+
-		'<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="'+ tdtotharga +'">'+ tdtotharga +'</td>'+
+		'<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="'+ tdtotharga +'"><input type="hidden" name="tduntung[]" value="'+ untung +'">'+ tdtotharga +'</td>'+
+		'<td class="tdbiayasetting"><input type="hidden" name="tdbiayasetting[]" value="'+biayasetting+'">'+biayasetting+'</td>'+
 		'<td><input type="hidden" name="tdketerangan[]" value="'+ keterangan +'">'+ keterangan +'</td>'+
+		// '<td><input type="hidden" name="tduntung[]" value="'+ untung +'">'+ untung +'</td>'+
 		'<td><a href="javascript:void(0)" class="btn btn-primary" id="delrow" onclick="deleteRoworderdetail(this)">del</a></td>'
     	'</tr>';
 		
-		if(!jumlah)
+		if($.trim(jumlah) == '' || $.trim(biayasetting) == '')
 		{
-			alert('isi dahulu');
+			return alert('Jumlah Dan Biaya Setting harus di isi');
 		}else{
 			$('table tbody').append(markup);
 		}
 
         
-       {{--  $('#namaproduk').find('option:eq(0)').prop('selected', true); --}}
-        {{-- $('#customer').find('option:eq(0)').prop('selected', true); --}}
+       
         $('#jumlah').val("");
         $('#harga').val("");
         $('#totharga').val("");
+        $('#tothargabeli').val("");
         $('#keterangan').val("");
         $('#grandtotal').val("");
-         $('#uangmuka').val("");
+        $('#uangmuka').val("");
+        $('#panjang').val("");
+        $('#lebar').val("");
+        $('#luas').val("");
+        $('#hargasatuan').val("");
+        $('#biayasetting').val("");
+        $('#hargabeli').val("");
+        $('#thbeli').val("");
+        $('#disc').val("");
 
-        {{-- $('#tbproduk').each(function(){
-		var sum = 0;
-		sum += Number($(this).html());
-		$('#total').val(sum);
-		}); --}}
+        $('#fdisc').val("");
+        $('#fharga').val("");
+        $('#fhargasatuan').val("");
+        $('#ftotharga').val("");
+        $('#fbiayasetting').val("");
+
+       
 
 		setInterval(function() {
 			var total = 0;
 			$('#tbproduk tbody .tdtotal').each(function() {
 				total += parseInt($(this).text());
 			})
-			$('#total').val(total);
-
-			{{-- var grand_total = 0;
-			grand_total += total;
-			grand_total += parseInt($('#tax').val());
-			grand_total -= parseInt($('#discount').val());
-
-			$('#grandtotal').val(grand_total); --}}
+			$('#totalproduk').val(total);
+			$('#ftotalproduk').autoNumeric('init',rupiah);
+			$('#ftotalproduk').autoNumeric('set',total);
+			
 		},500);
+
+
+		setInterval(function() {
+			var total = 0;
+			$('#tbproduk tbody .tdbiayasetting').each(function() {
+				total += parseInt($(this).text());
+			})
+			$('#totalbiayasetting').val(total);
+			$('#ftotalbiayasetting').autoNumeric('init',rupiah);
+			$('#ftotalbiayasetting').autoNumeric('set',total);
+		},500);
+
+		setInterval(function(){
+			var totalproduk = parseInt($('#totalproduk').val());
+			var totalbiayasetting = parseInt($('#totalbiayasetting').val());
+			var grandtotal = 0;
+
+			grandtotal = totalproduk + totalbiayasetting
+			$('#grandtotal').val(grandtotal);
+			$('#fgrandtotal').autoNumeric('init',rupiah);
+			$('#fgrandtotal').autoNumeric('set',grandtotal);
+
+		},1000)
+
+		
 
     });
 
@@ -264,30 +440,6 @@ $(function(){
 				
 			}									
 		}
-		
-        $('#uangmuka').keyup(function(){
-
-        var total = $('#total').val();
-        var uangmuka = $('#uangmuka').val();
-        var sum = total - uangmuka;
-        
-        $('#grandtotal').val(sum);
-		
-    	});
-
-
-    	$('#jumlah').keyup(function(){
-			var jumlah = $('#jumlah').val();
-			var harga = $('#harga').val();
-			var totharga= jumlah * harga;
-			$('#totharga').val(totharga);
-	    });
-
-	    {{--  $('#grandtotal').priceFormat({
-					      prefix: 'Rp ',
-					      centsSeparator: ',',
-					      thousandsSeparator: '.'
-					       });	  --}}
 });
 
 </script>

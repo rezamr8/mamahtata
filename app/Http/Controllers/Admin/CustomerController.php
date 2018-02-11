@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth','clearance']);
+        //$this->middleware(['auth','kasir']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
+
     /**
      * Display a listing of the resource.
      *

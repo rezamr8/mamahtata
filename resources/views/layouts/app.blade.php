@@ -13,14 +13,20 @@
     <!-- Styles -->
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet">   --}}  
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/>
-    <link href="https://datatables.yajrabox.com/css/datatables.bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datatables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+
+
+    {{-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/> --}}
+    {{-- <link href="https://datatables.yajrabox.com/css/datatables.bootstrap.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"  />
 
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/themes/default/style.min.css') }}">
 
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    {{-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> --}}
     
 </head>
 <body>
@@ -80,29 +86,47 @@
                 </div>
             </div>
         </nav>
-        
+        @if(Session::has('flash_message'))
+            <div class="container">      
+                <div class="alert alert-success"><em> {!! session('flash_message') !!}</em>
+                </div>
+            </div>
+        @endif 
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">              
+                @include ('errors.list') {{-- Including error file --}}
+            </div>
+        </div>        
         
         <div class="container">
-           {{--  @include('admin.sidebar') --}}
+           {{--  @include('admin.sidbebar') --}}
             
             <div class="col-md-9">
                 @yield('content')
             </div>
         </div>
     </div>
+
     
 
     <!-- Scripts -->
    {{--  <script src="{{ asset('js/app.js') }}"></script> --}}
    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+   <script src="{{ asset('js/handlebars.min.js') }}"></script>
+   <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
    {{-- <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> --}}
-    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>   
+   {{-- <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script> --}}
+   <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>    --}}
    <script src="{{ asset('js/select2.min.js') }}"></script>
    <script src="{{ asset('js/jquery.priceformat.min.js')}}"></script>
+   <script src="{{ asset('js/autoNumeric.js')}}"></script>
+   <script src="{{ asset('js/jstree.min.js')}}"></script>
+   <script src="{{ asset('js/rupiah.js')}}"></script>
 
-   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+   {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> --}}
    
     
     @yield('footer')    
@@ -114,6 +138,10 @@
             <tr>
                 <th>Id</th>
                 <th>Nama</th>
+                <th>Panjang</th>
+                <th>Lebar</th>
+                <th>Luas</th>
+                <th>Jasa</th>
                 <th>Harga</th>
                 <th>Jumlah</th>
                 <th>sub total</th>
@@ -130,6 +158,9 @@
          @if (Session::has('info'))
             toastr.info("{{Session::get('info')}}")
         @endif
+    </script>
+    <script>
+         $('#jstree').jstree();
     </script>
 </body>
 </html>

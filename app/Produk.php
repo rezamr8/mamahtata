@@ -25,7 +25,7 @@ class Produk extends Model
      *
      * @var array
      */
-    protected $fillable = ['nama', 'harga', 'stok'];
+    protected $fillable = ['nama', 'harga_beli','harga_jual', 'stok'];
 
     public function customer()
     {
@@ -35,6 +35,11 @@ class Produk extends Model
     public function orderdetail()
     {
         return $this->hasMany('App\OrderDetail');
+    }
+
+    public function stokkeluar()
+    {
+        return $this->hasMany('App\StokKeluar');
     }
 
     

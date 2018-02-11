@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Report;
 use App\Order;
+use App\OrderDetail;
 use App\Customer;
+use App\StokKeluar;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -50,7 +52,15 @@ class ReportController extends Controller
 
          $pdf = PDF::loadView('admin.report.report-pdf',compact('order','data'));
         
-        return $pdf->download('invoice.pdf');
+        return $pdf->download('report.pdf');
+    }
+
+    public function stok()
+    {
+        $perPage = 25;
+        $stok = OrderDetail::with('product')->orderBy('created_at','desc')->paginate($perPage);
+
+        return view('admin.report.stok',compact('stok'));
     }
 
     /**

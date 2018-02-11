@@ -18,7 +18,8 @@ $factory->define(App\Produk::class, function (Faker $faker) {
 
     return [
         'nama' => 'Product-'.$faker->word,
-        'harga' => '10000',
+        'harga_beli' => '10000',
+        'harga_jual' => '11000',
         'stok' => '10'
         
     ];

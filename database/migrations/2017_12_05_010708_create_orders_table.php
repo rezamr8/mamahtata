@@ -18,7 +18,9 @@ class CreateOrdersTable extends Migration
             $table->integer('customer_id');
             $table->string('no_order');            
             $table->double('uang_muka');
-            $table->double('total');
+            $table->double('total_produk');
+            $table->double('total_biaya_setting');
+            $table->double('piutang');
             $table->double('grand_total');
             $table->timestamps();
         });

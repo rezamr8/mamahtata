@@ -36,6 +36,7 @@
             <th>Customer</th>
             <th>No Transaksi</th>
             <th>Uang Muka</th>
+            <th>Jasa</th>
             <th>Total Pembayaran</th>
             <th>Sisa Piutang</th>
             <th>Tanggal</th>
@@ -47,7 +48,8 @@
               <td>{{$o->customer->nama}}</td>
               <td>{{$o->no_order}}</td>
               <td>{{$o->uang_muka}}</td>
-              <td class="tdtotal">{{$o->total}}</td>
+              <td>{{$o->total_biaya_setting}}</td>
+              <td class="tdtotal">{{$o->total_produk}}</td>
               <td class="tdpiutang">{{$o->grand_total}}</td>
               <td>{{ $o->created_at->format('Y-m-d') }}</td>
             </tr>
@@ -57,8 +59,8 @@
             </tr>
             <tr>
               <td colspan="3" class="text-center">Total Pemasukan</td>
-              
-              <td class="total">{{-- <input type="text" name="total" id="total"> --}}</td>
+              <td></td>
+              <td class="total"></td>
               <td class="piutang"></td>
             </tr>
             

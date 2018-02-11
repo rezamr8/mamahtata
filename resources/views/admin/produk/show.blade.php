@@ -27,7 +27,7 @@
                                     <tr>
                                         <th>ID</th><td>{{ $produk->id }}</td>
                                     </tr>
-                                    <tr><th> Nama </th><td> {{ $produk->nama }} </td></tr><tr><th> Harga </th><td> {{ $produk->harga }} </td></tr><tr><th> Stok </th><td> {{ $produk->stok }} </td></tr>
+                                    <tr><th> Nama </th><td> {{ $produk->nama }} </td></tr><tr><th> Harga Beli </th><td> {{ $produk->harga_beli }} </td></tr><tr><th> Harga Jual </th><td> {{ $produk->harga_jual }} </td></tr><tr><th> Stok </th><td> {{ $produk->stok }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

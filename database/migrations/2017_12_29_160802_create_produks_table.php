@@ -16,7 +16,8 @@ class CreateProduksTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('nama')->nullable();
-            $table->double('harga')->nullable();
+            $table->double('harga_beli')->nullable();
+            $table->double('harga_jual')->nullable();
             $table->integer('stok')->nullable();
             });
     }

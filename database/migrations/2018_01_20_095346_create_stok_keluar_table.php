@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration
+class CreateStokKeluarTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('stok_keluar', function (Blueprint $table) {
             $table->increments('id');
-            //$table->integer('user_id');
-            $table->string('title');
-            $table->boolean('completed')->default(0);
+            $table->integer('order_id');
+            $table->integer('produk_id');
+            $table->integer('jumlah');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('stok_keluar');
     }
 }

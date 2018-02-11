@@ -13,10 +13,24 @@ class UsersTableSeeder extends Seeder
     {
         //$users = factory(\App\User::class, 10)->create();
         App\User::create([
-        	'name' => 'reza',
-        	'email' => 'edzapodka@gmail.com',
-            'admin' => 1,
-        	'password' => bcrypt('password')
+        	'name' => 'admin',
+        	'email' => 'admin@print.com',
+          'admin' => 1,
+        	'password' => 'password'
+        ]);
+
+        App\User::create([
+            'name' => 'setting',
+            'email' => 'setting@print.com',
+            'admin' => 0,
+            'password' => 'password'
+        ]);
+
+        App\User::create([
+            'name' => 'kasir',
+            'email' => 'kasir@print.com',
+            'admin' => 0,
+            'password' => 'password'
         ]);
     }
 }

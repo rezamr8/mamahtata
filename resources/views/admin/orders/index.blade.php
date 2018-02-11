@@ -12,12 +12,15 @@
             <tr>
             	<th></th>
                 <th>id</th>
-                <th>customer</th>
-                <th>no order</th>
-                <th>uang muka</th>
-                <th>total</th>
-                <th>grand total</th>
-                <th>Action</th>
+                <th>CUSTOMER</th>
+                <th>NO ORDER</th>
+                <th>DP</th>
+                <th>PRODUK</th>
+                <th>JASA</th>
+                <th>GRAND TOTAL</th>
+
+                <th>PIUTANG</th>
+                <th>ACTION</th>
                 {{-- <th>Created At</th>
                 <th>Updated At</th> --}}
             </tr>
@@ -50,8 +53,11 @@ $(function() {
             { data: 'customer.nama', name: 'customer.nama' },
             { data: 'no_order', name: 'no_order' },
             { data: 'uang_muka', name: 'uang_muka'},
-            { data: 'total', name: 'total'},
+            { data: 'total_produk', name: 'total_produk'},
+            { data: 'total_biaya_setting', name: 'total_biaya_setting'},
             { data: 'grand_total', name: 'grand_total'},
+
+            { data: 'piutang', name: 'piutang'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
             {{-- { data: 'created_at', name: 'created_at' },
             { data: 'updated_at', name: 'updated_at' } --}}
@@ -98,6 +104,10 @@ $(function() {
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'product.nama', name: 'product.nama' },
+                { data: 'panjang', name: 'panjang'},
+                { data: 'lebar', name:'lebar'},
+                { data: 'luas', name:'luas'},
+                { data: 'biaya_setting', name: 'biaya_setting'},
                 { data: 'harga', name: 'harga' },
                 { data: 'jumlah', name: 'jumlah' },
                 { data: 'sub_total', name: 'sub_total' }
