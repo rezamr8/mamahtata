@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/themes/default/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/themes/default-dark/style.css') }}">
 
     {{-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> --}}
     
@@ -160,7 +160,10 @@
         @endif
     </script>
     <script>
-         $('#jstree').jstree();
+         $('#jstree').jstree({
+            'plugins':["wholerow"]
+              })
+         .bind("select_node.jstree", function (e, data) { document.location.href = data.node.a_attr.href; });
     </script>
 </body>
 </html>

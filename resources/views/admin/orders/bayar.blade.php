@@ -89,14 +89,14 @@
 	<div class="form-group row">
 		<label for="grandtotal" class="col-md-2 col-form-label col-form-label-md font-weight-bold">SUB TOTAL</label>
 		<div class="col-md-8">
-			<input type="text" class="form-control form-control-md" id="fgrandtotal" value="{{ $orders->grand_total }}" required readonly>
-			<input type="hidden" class="form-control form-control-md" name="grandtotal" id="grandtotal" value="{{ $orders->grand_total }}">
+			<input type="text" class="form-control form-control-md" id="fgrandtotal" value="{{ ($orders->total_produk) + ($orders->total_biaya_setting) }}" required readonly>
+			<input type="hidden" class="form-control form-control-md" name="grandtotal" id="grandtotal" value="{{ ($orders->total_produk) + ($orders->total_biaya_setting) }}">
 		</div>	    
 	</div>
 	<div class="form-group row">
 		<label for="uangmuka" class="col-md-2 col-form-label col-form-label-md font-weight-bold">UANG MUKA</label>
 		<div class="col-md-8">
-			<input type="text" class="form-control form-control-md" id="fuangmuka" value="{{$orders->uang_muka}}" required readonly>
+			<input type="text" class="form-control form-control-md" id="fuangmuka" value="{{$orders->uang_muka}}" required>
 			<input type="hidden" class="form-control form-control-md" id="uangmuka" name="uangmuka" value="{{$orders->uang_muka}}" required readonly>
 		</div>	    
 	</div>
@@ -130,6 +130,7 @@
              aSep: '.', 
              aDec: ',', 
              aSign: 'Rp '
+
             };
         $('#fgrandtotal,#fuangmuka,#fpiutang').autoNumeric('init', rupiah);
         

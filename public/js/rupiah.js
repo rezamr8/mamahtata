@@ -4,9 +4,10 @@ $(function(){
              aSep: '.', 
              aDec: ',', 
              aSign: 'Rp '
+
             };
     //var harga = $('#harga').val();
-    $('#fdisc,#fbiayasetting,#ftotalproduk,#ftotbiayasetting,#fgrandtotal').autoNumeric('init', rupiah);
+    $('#fdisc,#fbiayasetting,#ftotalproduk,#ftotbiayasetting,#fgrandtotal,#fuangmuka').autoNumeric('init', rupiah);
     $('#fdisc').bind('blur focusout keypress keyup', function () {
         var disc = $('#fdisc').autoNumeric('get');
         $('#disc').val(disc);

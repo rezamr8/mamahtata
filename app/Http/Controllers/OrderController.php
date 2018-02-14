@@ -12,7 +12,8 @@ use Session;
 use Yajra\Datatables\Datatables;
 use Auth;
 
-use Mike42\Escpos\Printer; 
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 class OrderController extends Controller
@@ -125,11 +126,7 @@ class OrderController extends Controller
     public function edit($id)
     {
         $customers = Customer::all();
-        //dd(Order::find($id)->orderdetail);
-        
         return view('admin.orders.edit')->with([
-                                //'orders'=>Order::find($id)->orderdetail()->with('product')->get(),
-                                //'orders'=>Order::find($id)->with(['orderdetail','stokkeluar']),
                                 'orders'=>Order::find($id),
                                 'customers'=>$customers,
                                 'products' => Produk::pluck('nama','id')->toArray()
@@ -163,22 +160,30 @@ class OrderController extends Controller
             Printer::JUSTIFY_LEFT,
             Printer::JUSTIFY_CENTER,
             Printer::JUSTIFY_RIGHT);
-        $printer->setJustification($justification[1]);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
         //$printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text("NAJMA PRINTING Telp 0892312312\n");
+        $printer -> text("NAZMA MEDIA\n");
+        $printer -> text("DIGITAL PRINTING\n");
+        //$logo = EscposImage::load("images/logo.png", false);
         //$printer -> setUnderline();
-        $printer -> feed(1);
-        $printer -> text("JL SOREANG NO 999\n"); 
-        $printer->text(str_pad("", 39, "="));
-        $printer -> feed(1);
+        //$printer -> graphics($logo);
+        //$printer -> bitImage($logo, Printer::IMG_DOUBLE_WIDTH);
+        //$printer->bitImageColumnFormat($logo, Printer::IMG_DOUBLE_WIDTH | Printer::IMG_DOUBLE_HEIGHT);
+        //$printer -> feed(1);
+        $printer -> text("JL RAYA SOREANG KAUM KIDUL NO 136\n"); 
+        $printer -> text("TELP/WA 085314123758\n"); 
+        $printer->text(str_pad("", 39, "=")."\n");
+        //$printer -> feed(1);
        // $printer -> selectPrintMode();
-        $printer->setJustification($justification[0]);
+        $printer->setJustification();
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text($orders->no_order);
         $printer->text(str_pad(" ", 15, " "));
         $printer->text(Auth::user()->name ."\n");
-        //$printer->text(date('D j M Y H:i:s') ."\n");
+        $printer->text($orders->customer->nama ."\n");
+        $printer->text($orders->customer->no_hp ."\n");
         $printer->text(date('D j M Y H:i:s') ."\n");
-         $printer -> feed(1);
+        $printer -> feed(1);
         foreach ($orders->orderdetail as $order) {
            $printer->setJustification($justification[0]);
            $printer->text(strtoupper($order->product->nama) ."\n");            
@@ -193,8 +198,6 @@ class OrderController extends Controller
            $discount += $order->discount;
            $printer->text("Rp ". number_format($total). "\n");
 
-            // $printer->text("SUB TOTAL Rp ". number_format($order->sub_total) ."\n");
-            // $printer->text("DISC Rp ". number_format($order->discount) ."\n");
            $printer ->setEmphasis(false);
 
          }
@@ -202,13 +205,20 @@ class OrderController extends Controller
       
          $printer ->setEmphasis(true);
          $printer -> feed(1);
-         $printer->text(str_pad("DISCOUNT Rp ". number_format($discount) ."\n",39," ",STR_PAD_LEFT));
+         $printer->text(str_pad("SUB TOTAL Rp ". number_format($orders->total_produk) ."\n",39," ",STR_PAD_LEFT));
          $printer->text(str_pad("SETTING Rp ". number_format($orders->total_biaya_setting) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("  TOTAL Rp ". number_format($orders->grand_total) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("     DP Rp ". number_format($orders->uang_muka) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("   SISA Rp ". number_format($orders->piutang) ."\n",39," ",STR_PAD_LEFT));
+         $printer->text(str_pad("DISCOUNT Rp ". number_format($discount) ."\n",39," ",STR_PAD_LEFT));
+         $printer->text(str_pad("  TOTAL  Rp ". number_format($orders->grand_total) ."\n",39," ",STR_PAD_LEFT));
+         $printer->text(str_pad("     DP  Rp ". number_format($orders->uang_muka) ."\n",39," ",STR_PAD_LEFT));
+         if( $orders->piutang == 0)
+         {
+            $printer->text(str_pad("   LUNAS  \n",39," ",STR_PAD_LEFT));
+         }else{
+            $printer->text(str_pad("   SISA  Rp ". number_format($orders->piutang) ."\n",39," ",STR_PAD_LEFT));
+         }
+         
          $printer -> cut();
-         /* Close printer */
+         
          $printer -> close();
          return response()->json('Cetak Berhasil');
       

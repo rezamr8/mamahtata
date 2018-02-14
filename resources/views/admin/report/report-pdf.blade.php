@@ -20,34 +20,40 @@
 
     <div class="panel-body">
       <table class="table table-condensed" id="tborder">
+        <thead>
         <tr>
-          <th>Customer</th>
-          <th>No Transaksi</th>
-          <th>Uang Muka</th>
-          <th>Total Pembayaran</th>
-          <th>Sisa Piutang</th>
-          <th>Tanggal</th>
+          <th>CUSTOMER</th>
+          <th>NO ORDER</th>
+         
+          <th>SUB TOTAL</th>
+          <th>PIUTANG</th>
+          <th>KEUNTUNGAN</th>
+          <th>TANGGAL</th>
         </tr>
+        </thead>
         <tbody id="orderFilter">
 
           @foreach ($order as $o)
           <tr>
             <td>{{$o->customer->nama}}</td>
-            <td>{{$o->no_order}}</td>
-            <td>{{$o->uang_muka}}</td>
-            <td class="tdtotal">{{$o->total}}</td>
-            <td class="tdpiutang">{{$o->grand_total}}</td>
-            <td>{{ $o->created_at->format('Y-m-d') }}</td>
+              <td>{{$o->no_order}}</td>              
+              <td class="tdtotal">{{ number_format($o->grand_total) }}</td>
+              <td class="tdpiutang">{{ number_format($o->piutang) }}</td>
+              <td class="tduntung">{{ number_format($o->orderdetail->sum('keuntungan')) }}</td>
+              <td>{{ $o->created_at->format('Y-m-d') }}</td>
           </tr>
           @endforeach
           <tr>
             <td colspan="6"></td>
           </tr>
           <tr>
-            <td colspan="3" class="text-center">Total Pemasukan</td>
+            <td colspan="2" class="text-center">TOTAL PEMASUKAN</td>
 
             <td class="total">{{ $data['total'] }}</td>
             <td class="piutang">{{ $data['piutang'] }}</td>
+            <td class="untung">{{ $data['untung'] }}</td>
+            <td></td>
+
           </tr>
 
         </tbody>
@@ -68,15 +74,25 @@
     {
       var total = 0;
       var piutang = 0;
+      var rupiah = {
+             aSep: '.', 
+             aDec: ',',
+             mDec: '0', 
+             aSign: 'Rp '
+            };
+      $('.tdtotal,.total,.tdpiutang,.piutang').autoNumeric('init',rupiah);
       $('#tborder tbody .tdtotal').each(function() {
-        total += parseInt($(this).text());
+        total += parseInt($(this).text().replace(/[^0-9]/g, ''));
       })
-      $('.total').html(total);
+    
+      
+      $('.total').html(total+'<input type="hidden" name="total" id="total" value="'+total+'">');
+      $('.total').autoNumeric('set',total);
 
       $('#tborder tbody .tdpiutang').each(function() {
-        piutang += parseInt($(this).text());
+        piutang += parseInt($(this).text().replace(/[^0-9]/g, ''));
       })
-      $('.piutang').html(piutang);
+      $('.piutang').html(piutang+'<input type="hidden" name="piutang" id="piutang" value="'+piutang+'">');
     }
 
     hitung();
@@ -89,37 +105,9 @@
      $('#to_date').datepicker();
    });
 
-    $('#exportPDF').click(function(){
-     console.log('click pdf');
-     var from_date = $('#from_date').val();
-     var to_date = $('#to_date').val();
-
-     if( from_date != '' && to_date != ''){
-
-       $.ajaxSetup({
-        headers: {
-         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-       }
-     });
-
-       $.ajax({
-         url:"{{ route('report.pdf') }}",
-         method:"POST",
-         data:{from_date:from_date,to_date:to_date},
-         success:function(data)
-         {
-           console.log(data);
-           $('#orderFilter').empty().html(data);
-           hitung();
-         }
-       });
+   
 
 
-
-     }else{
-       alert('isi dahulu tanggal nya');
-     }
-   })
 
 
   })

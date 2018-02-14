@@ -61,11 +61,11 @@
 				<div class="form-group controls row">
 					<label for="panjang" class="col-md-2 font-weight-bold">PANJANG</label>
 					<div class="col-md-3">
-						<input type="number" class="form-control form-control-md" id="panjang"  name="panjang" required="harus di isi">
+						<input type="number" class="form-control form-control-md" id="panjang"  name="panjang" >
 					</div>
 					<label for="lebar" class="col-md-1 font-weight-bold">LEBAR</label>
 					<div class="col-md-4">
-						<input type="number" class="form-control form-control-md" id="lebar" name="lebar" required="harus di isi">
+						<input type="number" class="form-control form-control-md" id="lebar" name="lebar" >
 					</div>
 				</div>	
 
@@ -401,10 +401,11 @@ $(function(){
 				$('#grandtotal').attr('value',sum);
 				$('#totbiayasetting').val(totalsetting);
 				$('#totbiayasetting').attr('value',totalsetting)
-				$('#ftotalproduk,#ftotbiayasetting,#fgrandtotal').autoNumeric('init',rupiah);
+				$('#ftotalproduk,#ftotbiayasetting,#fgrandtotal,#fuangmuka').autoNumeric('init',rupiah);
 				$('#ftotalproduk').autoNumeric('set',total);
 				$('#ftotbiayasetting').autoNumeric('set',totalsetting);
 				$('#fgrandtotal').autoNumeric('set',sum);
+				$('#fuangmuka').autoNumeric('set',uangmuka);
 				
 			},500);
 

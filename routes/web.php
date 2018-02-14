@@ -49,6 +49,8 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 
 	//Report 
 	Route::get('report/stok',['uses'=>'ReportController@stok', 'as'=>'report.stok']);
+	Route::post('report/poststok',['uses'=>'ReportController@postStok', 'as'=>'report.poststok']);
+	Route::post('report/stok-pdf',['uses'=>'ReportController@pdfStok', 'as'=>'report.pdfstok']);
 	Route::resource('report', 'ReportController');
 	Route::post('report/gettanggal',['uses'=>'ReportController@getTanggal','as'=>'report.tanggal']);
 	Route::post('report/pdf',['uses'=>'ReportController@getPdf','as'=>'report.pdf']);

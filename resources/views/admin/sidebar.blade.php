@@ -5,51 +5,55 @@
     </div>
 
     <div class="panel-body">
-        
-        <div class="list-group">
-            <div class="list-group-item list-group-item-heading">Dashboard</div>
+        <div id="jstree">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-heading"> Dashboard</li>
             @hasrole('admin')
-             <a href="{{ route('customer.index') }}" class="list-group-item"><i class="fa fa-users fa-2x"></i>&nbsp; Customer</a>
-             <a href="{{ route('produk.index') }}" class="list-group-item"><i class="fa fa-dropbox fa-2x"></i>&nbsp; Product</a>
+             <li class="list-group-item" data-jstree='{"icon":"fa fa-users fa-2x"}'><a href="{{ route('customer.index') }}">&nbsp; CUSTOMER</a></li>
+             <li class="list-group-item" data-jstree='{"icon":"fa fa-dropbox fa-2x"}'><a href="{{ route('produk.index') }}">&nbsp; PRODUK</a></li>
+             
             @else
             @hasrole('setting')
-             <a href="{{ route('customer.index') }}" class="list-group-item"><i class="fa fa-users fa-2x"></i>&nbsp; Customer</a>
+             <li class="list-group-item" data-jstree='{"icon":"fa fa-users fa-2x"}'><a href="{{ route('customer.index') }}">&nbsp; CUSTOMER</a></li>
+             
             @endhasrole
             @endhasrole
-        </div>
+        </ul>
 
 
-        <div class="list-group">
-            <a href="{{ route('orders.index') }}" class="list-group-item"><i class="fa fa-tablet fa-2x"></i>&nbsp; Order</a>
+        <ul class="list-group">
+            <li class="list-group-item" data-jstree='{"icon":"fa fa-tablet fa-2x"}'><a href="{{ route('orders.index') }}">&nbsp; ORDER</a></li>
+           
             @hasanyrole('admin|setting')
-            <a href="{{ route('orders.create') }}" class="list-group-item"><i class="fa fa-shopping-cart fa-2x"></i>&nbsp; Buat Order</a>
+            <li class="list-group-item" data-jstree='{"icon":"fa fa-shopping-cart fa-2x"}'><a href="{{ route('orders.create') }}">&nbsp; BUAT ORDER</a></li>
+            
             @endhasanyrole
             @hasanyrole('admin|kasir')
-            {{-- <div id="jstree">
-                <ul class="list-group">
-                    <li class="list-group-item">Report
-                        <ul class="list-group">
-                            <li class="list-group-item" data-jstree='{"icon":"fa fa-book fa-2x"}'>child 1</li>
-                            <li class="list-group-item"><a href="{{ route('report.index')}}"> Report</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            {{-- <a href="{{ route('report.index')}}" class="list-group-item"><i class="fa fa-book fa-2x"></i>&nbsp; Report</a> --}}
-            {{-- </div> --}} 
-            <a href="{{ route('report.index')}}" class="list-group-item"><i class="fa fa-book fa-2x"></i>&nbsp; Report</a>
+
+           <li class="list-group-item" data-jstree='{"icon":"fa fa-book fa-2x"}'>
+            &nbsp; REPORT
+            <ul>
+                <li class="list-group-item" data-jstree='{"icon":"fa fa-bar-chart fa-2x"}'><a href="{{ route('report.index') }}">&nbsp;TRANSAKSI</a></li>
+                <li class="list-group-item" data-jstree='{"icon":"fa fa-list-alt fa-2x"}'><a href="{{ route('report.stok') }}">&nbsp;STOK</a></li>
+            </ul>
+            </li>
+            
+
             @endhasanyrole
-        </div>
+        </ul>
 
 
 
         @hasrole('admin')
-        <div class="list-group">
-            <a href="{{ route('users.index') }}" class="list-group-item"><i class="fa fa-user-circle fa-2x"></i>&nbsp; Users</a>
-            <a href="{{ route('users.create') }}" class="list-group-item">&nbsp; Buat User</a>
-        </div>
+        <ul class="list-group">
+            <li class="list-group-item" data-jstree='{"icon":"fa fa-user-circle fa-2x"}'><a href="{{ route('users.index') }}">&nbsp; USERS</a></li>
+            <li class="list-group-item" data-jstree='{"icon":"fa fa-user-plus fa-2x"}'><a href="{{ route('users.create') }}">&nbsp; BUAT USERS</a></li>
+            
+        </ul>
         @endhasrole
 
 
+    </div>
     </div>
 
 </div>
