@@ -40,7 +40,9 @@
             <th>JASA</th>
             <th>SUB TOTAL</th>
             <th>PIUTANG</th>
+            @hasrole('admin')
             <th>KEUNTUNGAN</th>
+            @endhasrole
             <th>TANGGAL</th>
           </tr>
           </thead>
@@ -54,7 +56,9 @@
               <td>{{ number_format($o->total_biaya_setting) }}</td>
               <td class="tdtotal">{{ $o->grand_total }}</td>
               <td class="tdpiutang">{{ $o->piutang }}</td>
+              @hasrole('admin')
               <td class="tduntung">{{ $o->orderdetail->sum('keuntungan') }}</td>
+              @endhasrole
               <td>{{ $o->created_at->format('Y-m-d') }}</td>
             </tr>
             @endforeach
@@ -66,7 +70,9 @@
               
               <td class="total"></td>
               <td class="piutang"></td>
+              @hasrole('admin')
               <td class="untung"></td>
+              @endhasrole
               <td></td>
             </tr>
             

@@ -16,7 +16,8 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::get('/orders/create', ['uses'=>'OrderController@create','as' => 'orders.create']);
 	Route::get('/orders/{id}/edit', ['uses'=>'OrderController@edit','as' => 'orders.edit']);
 	Route::get('/orders/{id}/bayar', ['uses'=>'OrderController@bayar','as' => 'orders.bayar']);
-	Route::get('/orders/printbayar/{id}', ['uses'=>'OrderController@printbayar','as' => 'orders.printbayar']);
+	// Route::get('/orders/printbayar/{id}', ['uses'=>'OrderController@printbayar','as' => 'orders.printbayar']);
+	Route::post('/orders/printbayar/{id}', ['uses'=>'OrderController@printbayar','as' => 'orders.printbayar']);
 
 
 	Route::get('/orders/nohp',['uses' => 'OrderController@nohp', 'as' => 'orders.nohp']);

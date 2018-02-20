@@ -25,7 +25,9 @@
               <th>NO TRANSAKSI</th>
               <th>NAMA PRODUK</th>
               <th>STOK KELUAR</th>
+              @hasrole('admin')
               <th>KEUNTUNGAN</th>
+              @endhasrole
               
             </tr>
             </thead>
@@ -35,13 +37,15 @@
                 <td>{{$s->order->no_order}}</td>
                 <td>{{$s->product->nama}}</td>
                 <td class="tdout">{{$s->luas}}</td>
-                <td class="tduntung">{{ $s->keuntungan }}</td>
+                @hasrole('admin')
+                <td class="tduntung">{{ number_format($s->keuntungan) }}</td>
+                @endhasrole
                 
               </tr>
               @endforeach
               <td colspan="2" class="text-center">Total Pemasukan</td>
-              <td class="out"></td>
-              <td class="total"></td>
+              <td class="out">{{ $data['out'] }}</td>
+              <td class="total">{{ $data['total'] }}</td>
             </tbody>
           </table>
      
@@ -50,7 +54,7 @@
 </div>
 
 
-@endsection
+@stop
 
 
 

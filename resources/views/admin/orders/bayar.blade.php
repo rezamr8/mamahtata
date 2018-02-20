@@ -13,7 +13,7 @@
 				<div class="panel-heading">Customer No transaksi <strong>{{ $orders->no_order }}</strong></div>
 				<div class="panel-body">		
 					<div class="form-group row">
-						<label for="customer" class="col-md-2 col-form-label col-form-label-md font-weight-bold">customer</label>
+						<label for="customer" class="col-md-2 col-form-label col-form-label-md font-weight-bold">CUSTOMER</label>
 						<div class="col-md-8">
 							
 					
@@ -21,7 +21,7 @@
 				</div>	    
 			</div>
 			<div class="form-group row">
-				<label for="nohp" class="col-md-2 col-form-label col-form-label-md font-weight-bold" >Handphone</label>
+				<label for="nohp" class="col-md-2 col-form-label col-form-label-md font-weight-bold" >HANDPHONE</label>
 				<div class="col-md-8">
 					<input type="text" class="form-control form-control-md" id="nohp" name="" readonly="readonly" value="{{$orders->customer->no_hp}}">	  
 				</div>  
@@ -46,6 +46,7 @@
 							<th align="center">Lebar</th>
 							<th align="center">Luas</th>
 							<th align="center">Harga</th>
+							<th>Disc</th>
 							<th align="center">Jasa</th>
 							<th align="center">Jumlah</th>
 							<th align="center">Total</th>
@@ -63,6 +64,7 @@
 							<td><input type="hidden" name="tdlebar[]" readonly value="{{$order->lebar}}">{{$order->lebar}} meter</td>
 							<td><input type="hidden" name="tdluas[]" readonly value="{{$order->luas}}">{{$order->luas}} meter</td>
 							<td><input type="hidden" name="tdharga[]" readonly value="{{$order->harga}}">{{$order->harga}}</td>
+							<td>{{ $order->discount}}</td>
 							<td><input type="hidden" name="tdbiayasetting[]" readonly value="{{$order->biaya_setting}}">{{$order->biaya_setting}}</td>
 							<td><input type="hidden" name="tdjumlah[]" value="{{$order->jumlah}}">{{$order->jumlah}}</td>
 							<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="{{$order->sub_total}}">{{$order->sub_total}}</td>
@@ -104,10 +106,17 @@
 	<div class="form-group row">
 		<label for="piutang" class="col-md-2 col-form-label col-form-label-md font-weight-bold">PIUTANG</label>
 		<div class="col-md-8">
-			<input type="text" class="form-control form-control-md" id="fpiutang" required value="{{$orders->piutang}}" required readonly>
+			<input type="text" class="form-control form-control-md" id="fpiutang" name="fpiutang" value="{{$orders->piutang}}" required readonly>
 			<input type="hidden" class="form-control form-control-md" id="piutang" name="piutang" required value="{{$orders->piutang}}" required readonly>
 		</div>	    
 	</div>
+	{{-- <div class="form-group row">
+		<label for="bayar" class="col-md-2 col-form-label col-form-label-md font-weight-bold">BAYAR</label>
+		<div class="col-md-8">
+			<input type="text" class="form-control form-control-md" id="fbayar" required>
+			<input type="hidden" class="form-control form-control-md" id="piutang" name="piutang" required value="{{$orders->piutang}}" required readonly>
+		</div>	    
+	</div> --}}
 
 	<div class="form-group">
 		<button class="btn btn-primary" type="submit">Save</button>
@@ -129,8 +138,8 @@
 		var rupiah = {
              aSep: '.', 
              aDec: ',', 
-             aSign: 'Rp '
-
+             aSign: 'Rp ',
+             mDec:'0'
             };
         $('#fgrandtotal,#fuangmuka,#fpiutang').autoNumeric('init', rupiah);
         
@@ -159,9 +168,21 @@
 	        
 	    });
 
+		// $('#cetak').click(function(e){
+		// 	e.preventDefault();
+		// 	$.get("{{ url('admin/orders/printbayar/'.$orders->id) }}", function(data){
+		// 		console.log(data);
+		// 	});
+		// });
+
 		$('#cetak').click(function(e){
 			e.preventDefault();
-			$.get("{{ url('admin/orders/printbayar/'.$orders->id) }}", function(data){
+
+			$.post("{{ url('admin/orders/printbayar/'.$orders->id) }}",{
+				'_token': $('meta[name=csrf-token]').attr('content'),
+				fpiutang:$('#fpiutang').val(),
+				piutang:$('#piutang').val()
+			}, function(data){
 				console.log(data);
 			});
 		});

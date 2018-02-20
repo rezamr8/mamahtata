@@ -12,6 +12,11 @@ use PDF;
 
 class ReportController extends Controller
 {
+
+     public function __construct() {
+        $this->middleware(['auth','clearance']);
+   
+    }
     /**
      * Display a listing of the resource.
      *
@@ -71,8 +76,8 @@ class ReportController extends Controller
             'from_date' => $request->get('from_date'),
             'to_date' => $request->get('to_date'),
             'total' => $request->get('total'),
-            'piutang' => $request->get('piutang'),
-            'untung' => $request->get('untung')
+            'out' => $request->get('out')
+           
         ];
         $from_date = request('from_date');
         $to_date = request('to_date');

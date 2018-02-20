@@ -21,7 +21,7 @@ class OrderController extends Controller
 
     public function __construct() {
         $this->middleware(['auth','clearance'])->except(['getMasterData','getDetailsData']);
-        //$this->middleware(['auth','kasir']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+   
     }
 
    
@@ -29,8 +29,7 @@ class OrderController extends Controller
     {    	
 
         return view('admin.orders.index');
-         // $lastOrder = \App\Order::orderBy('created_at', 'desc')->first();
-         // return $lastOrder->order_id;        
+        
     }
 
 
@@ -62,9 +61,6 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        
-        //dd($request->all());
-
         //save table order 
         $ordernumber = OrderController::orderNumber();
         $order = new \App\Order;
@@ -146,10 +142,12 @@ class OrderController extends Controller
                                 ]);
     }
 
-    public function printbayar($id)
+    public function printbayar(Request $request,$id)
     {
-
-        $ip = 'localhost'; // IP Komputer kita atau printer lain yang masih satu jaringan
+       
+        $fpiutang = $request->input('fpiutang');
+      
+        $ip = 'localhost'; 
         $printer = 'EPSON TM-U220 Receipt'; // Nama Printer yang di sharing
         $connector = new WindowsPrintConnector("smb://" . $ip . "/" . $printer);
 
@@ -161,20 +159,12 @@ class OrderController extends Controller
             Printer::JUSTIFY_CENTER,
             Printer::JUSTIFY_RIGHT);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        //$printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
         $printer -> text("NAZMA MEDIA\n");
         $printer -> text("DIGITAL PRINTING\n");
-        //$logo = EscposImage::load("images/logo.png", false);
-        //$printer -> setUnderline();
-        //$printer -> graphics($logo);
-        //$printer -> bitImage($logo, Printer::IMG_DOUBLE_WIDTH);
-        //$printer->bitImageColumnFormat($logo, Printer::IMG_DOUBLE_WIDTH | Printer::IMG_DOUBLE_HEIGHT);
-        //$printer -> feed(1);
         $printer -> text("JL RAYA SOREANG KAUM KIDUL NO 136\n"); 
         $printer -> text("TELP/WA 085314123758\n"); 
+        $printer -> text("EMAIL nazmaprintsoreang@gmail.com\n"); 
         $printer->text(str_pad("", 39, "=")."\n");
-        //$printer -> feed(1);
-       // $printer -> selectPrintMode();
         $printer->setJustification();
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text($orders->no_order);
@@ -191,8 +181,16 @@ class OrderController extends Controller
            $printer->text(" X ");
            $printer->text("$order->lebar M ");
            $printer->text("*$order->jumlah");
-           $printer->text(str_pad(" ", 17, " "));//9
+           if($order->discount > 0)
+           {
+            $printer->text(" disc $order->discount");
+            }else{
+            $printer->text(str_pad(" ", 9, " "));  
+            }
+           
+           $printer->text(str_pad(" ", 7, " "));//9
            $printer ->setEmphasis(true);
+
            $total = ($order->sub_total) + ($order->discount);
 
            $discount += $order->discount;
@@ -206,20 +204,36 @@ class OrderController extends Controller
          $printer ->setEmphasis(true);
          $printer -> feed(1);
          $printer->text(str_pad("SUB TOTAL Rp ". number_format($orders->total_produk) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("SETTING Rp ". number_format($orders->total_biaya_setting) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("DISCOUNT Rp ". number_format($discount) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("  TOTAL  Rp ". number_format($orders->grand_total) ."\n",39," ",STR_PAD_LEFT));
-         $printer->text(str_pad("     DP  Rp ". number_format($orders->uang_muka) ."\n",39," ",STR_PAD_LEFT));
-         if( $orders->piutang == 0)
+         if( $orders->total_biaya_setting > 0)
          {
-            $printer->text(str_pad("   LUNAS  \n",39," ",STR_PAD_LEFT));
+             $printer->text(str_pad("SETTING Rp ". number_format($orders->total_biaya_setting) ."\n",39," ",STR_PAD_LEFT));
+         }else{
+            $printer->text("");
+         }
+        
+        
+         $printer->text(str_pad("  TOTAL  Rp ". number_format($orders->grand_total) ."\n",39," ",STR_PAD_LEFT));
+         if( $orders->uang_muka == $orders->grand_total)
+         {
+            $printer->text("");
+         }else{
+            $printer->text(str_pad("     DP  Rp ". number_format($orders->uang_muka) ."\n",39," ",STR_PAD_LEFT));
+         }
+         
+         if( $request->input('piutang') < 0 )
+         {
+                $printer->text(str_pad("KEMBALI:". $fpiutang."\n",39," ",STR_PAD_LEFT));
+                $printer->text(str_pad("LUNAS\n",39," ",STR_PAD_LEFT));
          }else{
             $printer->text(str_pad("   SISA  Rp ". number_format($orders->piutang) ."\n",39," ",STR_PAD_LEFT));
          }
-         
+         // $printer -> setFont(Printer::FONT_C);
+         // $printer->text("Note : Cek Kembali file anda dan pastikan tidak ada yang salah, kesalahan file setelah transaksi bukan menjadi tanggung jawab kami \n");
+         // $printer->text("Barang yang tidak di ambil lebih dari 2 minggu apabila hilang/rusak bukan menjadi tanggung jawab kami");
          $printer -> cut();
          
          $printer -> close();
+        
          return response()->json('Cetak Berhasil');
       
     }
@@ -228,7 +242,7 @@ class OrderController extends Controller
     
     public function update(Request $request, $id)
     {
-        //dd($request->all());
+        
         $order = Order::findOrFail($id);
         $order->total_produk = $request->input('totalproduk');
         $order->piutang = $request->input('grandtotal');
@@ -245,17 +259,31 @@ class OrderController extends Controller
 
     public function updateBayar(Request $request, $id)
     {
-        //dd($request->all());
+       
         $order = Order::findOrFail($id);
         $order->total_produk = $request->input('totalproduk');
-        $order->piutang = $request->input('piutang');
-        $order->uang_muka = $request->input('uangmuka');
+        
+        if( $request->input('uangmuka') >= $request->input('grandtotal') )
+        {
+            $order->uang_muka = $request->input('grandtotal');
+        }else{
+            $order->uang_muka = $request->input('uangmuka');
+        }
+        if($request->input('piutang') <= 0)
+        {
+            $order->piutang = 0;
+        }else{
+            $order->piutang = $request->input('piutang');
+        }
+       
         $order->total_biaya_setting = request('totbiayasetting');
         $order->grand_total = $request->input('grandtotal');
 
         $order->update();
         Session::flash('success', 'Transaksi Pembayaran Sukses' );
-        return redirect()->route('orders.index');
+        OrderController::printbayar($request,$id);
+        return back();
+       
        
 
     }
@@ -263,7 +291,7 @@ class OrderController extends Controller
     public function updateOrder(Request $request, $id)
     {
         
-        //dd($request->all());
+     
         $order = Order::findOrFail($id);
         $order->total_produk = $request->input('totalproduk');
         $order->total_biaya_setting = request('totbiayasetting');
