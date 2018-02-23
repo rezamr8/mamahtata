@@ -3,7 +3,8 @@ $(function(){
 	var rupiah = {
              aSep: '.', 
              aDec: ',', 
-             aSign: 'Rp '
+             aSign: 'Rp ',
+             mDec:0
 
             };
     //var harga = $('#harga').val();

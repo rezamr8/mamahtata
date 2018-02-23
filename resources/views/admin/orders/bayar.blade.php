@@ -96,7 +96,7 @@
 		</div>	    
 	</div>
 	<div class="form-group row">
-		<label for="uangmuka" class="col-md-2 col-form-label col-form-label-md font-weight-bold">UANG MUKA</label>
+		<label for="uangmuka" class="col-md-2 col-form-label col-form-label-md font-weight-bold">UANG MUKA / BAYAR</label>
 		<div class="col-md-8">
 			<input type="text" class="form-control form-control-md" id="fuangmuka" value="{{$orders->uang_muka}}" required>
 			<input type="hidden" class="form-control form-control-md" id="uangmuka" name="uangmuka" value="{{$orders->uang_muka}}" required readonly>

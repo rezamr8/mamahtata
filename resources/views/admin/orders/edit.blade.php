@@ -51,11 +51,18 @@
 
 				<div class="form-group row">
 					<label for="harga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">HARGA</label>
-					<div class="col-md-8">
-						<input type="text" class="form-control form-control-md" id="fharga" readonly>
-						<input type="hidden" class="form-control form-control-md" id="harga" name="harga" readonly>
-						<input type="hidden" class="form-control form-control-md" id="hargabeli" name="hargabeli" readonly>
-					</div>	    
+					<div class="col-md-3">
+						 <input type="text" class="form-control form-control-md" id="fharga" readonly>
+					      <input type="hidden" class="form-control form-control-md" id="tempharga" name="tempharga" >
+					      <input type="hidden" class="form-control form-control-md" id="harga" name="harga" >
+					      <input type="hidden" class="form-control form-control-md" id="temphargabeli" name="temphargabeli" >
+					      <input type="hidden" class="form-control form-control-md" id="hargabeli" name="hargabeli" >
+					</div>
+					<label for="discount" class="col-md-2 col-form-label col-form-label-md font-weight-bold"> DISCOUNT</label>
+			    <div class="col-md-3">
+			    	<input type="text" class="form-control form-control-md" id="fdisc" >
+			    	<input type="hidden" class="form-control form-control-md" id="disc" name="disc">
+			    </div>
 				</div>
 
 				<div class="form-group controls row">
@@ -75,7 +82,7 @@
 						<input type="text" class="form-control form-control-md" id="luas" name="luas" required readonly>
 					</div>
 					<label for="hargasatuan" class="col-md-1 font-weight-bold">HARGA TOTAL</label>
-					<div class="col-md-2">
+					<div class="col-md-4">
 						<input type="text" class="form-control form-control-md" id="fhargasatuan" required readonly>
 						<input type="hidden" class="form-control form-control-md" id="hargasatuan" name="hargasatuan" required readonly>
 						<input type="hidden" class="form-control form-control-md" id="thbeli" name="thbeli" required readonly>
@@ -83,12 +90,8 @@
 				</div>
 
 				<div class="form-group controls row">					
-					<label for="disc" class="col-md-2 col-form-label col-form-label-md font-weight-bold">DISCOUNT</label>	    
-					<div class="col-md-2">
-						<input type="text" class="form-control form-control-md" id="fdisc">
-						<input type="hidden" class="form-control form-control-md" id="disc" name="disc" >
-					</div>
-					<label for="jumlah" class="col-md-1 col-form-label col-form-label-md font-weight-bold">JUMLAH</label>
+					
+					<label for="jumlah" class="col-md-2 col-form-label col-form-label-md font-weight-bold">JUMLAH</label>
 					<div class="col-md-2">
 						<input type="text" class="form-control form-control-md" id="jumlah" name="jumlah" >
 					</div>	
@@ -232,6 +235,16 @@ $(function(){
 	$('#namaproduk').select2();
 
 	$('#fdisc').bind('blur focusout',function(){
+		var tempharga = $('#tempharga').val();
+		var temphargabeli = $('#temphargabeli').val();
+		var disc = $('#disc').val()
+		var kurang = tempharga - disc;
+		var kurang2 =  temphargabeli - disc;
+		$('#fharga').val(kurang);
+		$('#fharga').autoNumeric('set',kurang);
+
+		$('#harga').val(kurang);
+		$('#hargabeli').val(kurang2);
 		$('#jumlah').val('');
 		$('#ftotharga').val('');
 		$('#totharga').val('');
@@ -292,8 +305,12 @@ $(function(){
 
 			success: function(response){ 
 
-				$('#harga').val(response.harga_jual);
-				$('#hargabeli').val(response.harga_beli);
+				
+	            $('#harga').val(response.harga_jual);
+	            $('#tempharga').val(response.harga_jual);
+
+	             $('#hargabeli').val(response.harga_beli);
+	             $('#temphargabeli').val(response.harga_beli);
 
 				$('#fharga').autoNumeric('init', {aSep: '.',aDec:',',aSign:'Rp '});
 	            var harga = $('#harga').val();
@@ -311,8 +328,8 @@ $(function(){
 		var hargasatuan = $('#hargasatuan').val();
 		var thbeli = $('#thbeli').val();
 		var disc = $('#disc').val();
-		var totharga= (jumlah * hargasatuan) - disc;
-		var tothargabeli = (jumlah * thbeli) - disc;
+		var totharga= (jumlah * hargasatuan);
+		var tothargabeli = (jumlah * thbeli);
 		$('#totharga').val(totharga);
 		$('#tothargabeli').val(tothargabeli);
 		$('#ftotharga').autoNumeric('init', rupiah);
@@ -370,6 +387,8 @@ $(function(){
 			$('#thbeli').val("");
 			$('#tothargabeli').val("");
 			$('#keuntungan').val("");
+			$('#tempharga').val("");
+        	$('#temphargabeli').val("");
 
 			$('#fdisc').val("");
 	        $('#fharga').val("");
