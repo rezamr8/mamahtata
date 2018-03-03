@@ -147,7 +147,8 @@ class OrderController extends Controller
        
         $fpiutang = $request->input('fpiutang');
       
-        $ip = 'localhost'; 
+        //$ip = 'localhost'; 
+        $ip = '192.168.43.140'; 
         $printer = 'EPSON TM-U220 Receipt'; // Nama Printer yang di sharing
         $connector = new WindowsPrintConnector("smb://" . $ip . "/" . $printer);
 
@@ -191,10 +192,10 @@ class OrderController extends Controller
            $printer->text(str_pad(" ", 7, " "));//9
            $printer ->setEmphasis(true);
 
-           $total = ($order->sub_total) + ($order->discount);
+          // $total = ($order->sub_total) + ($order->discount);
 
-           $discount += $order->discount;
-           $printer->text("Rp ". number_format($total). "\n");
+           //$discount += $order->discount;
+           $printer->text("Rp ". number_format($order->sub_total). "\n");
 
            $printer ->setEmphasis(false);
 
@@ -220,16 +221,23 @@ class OrderController extends Controller
             $printer->text(str_pad("     DP  Rp ". number_format($orders->uang_muka) ."\n",39," ",STR_PAD_LEFT));
          }
          
-         if( $request->input('piutang') < 0 )
+         if( $request->input('piutang') <= 0 )
          {
-                $printer->text(str_pad("KEMBALI:". $fpiutang."\n",39," ",STR_PAD_LEFT));
+                $printer->text(str_pad("KEMBALI    ". $fpiutang."\n",39," ",STR_PAD_LEFT));
                 $printer->text(str_pad("LUNAS\n",39," ",STR_PAD_LEFT));
          }else{
             $printer->text(str_pad("   SISA  Rp ". number_format($orders->piutang) ."\n",39," ",STR_PAD_LEFT));
          }
-         // $printer -> setFont(Printer::FONT_C);
-         // $printer->text("Note : Cek Kembali file anda dan pastikan tidak ada yang salah, kesalahan file setelah transaksi bukan menjadi tanggung jawab kami \n");
-         // $printer->text("Barang yang tidak di ambil lebih dari 2 minggu apabila hilang/rusak bukan menjadi tanggung jawab kami");
+         $printer->setFont(Printer::FONT_C);
+         $printer->setJustification(Printer::JUSTIFY_LEFT);
+         $printer->text("Note : \n");
+         $printer->text("cek kembali file, kesalahan file setelah transaksi bukan menjadi tanggung jawab kami\n");
+         $printer->text("Barang yang tidak di ambil lebih dari \n");
+         $printer->text("2 minggu apabila hilang/rusak bukan menjadi tanggung jawab kami\n");
+         $printer->setJustification(Printer::JUSTIFY_CENTER);
+         $printer ->setEmphasis(true);
+         $printer->text("== TERIMA KASIH == \n");
+         
          $printer -> cut();
          
          $printer -> close();

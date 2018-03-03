@@ -300,7 +300,7 @@ $(function(){
 	             $('#hargabeli').val(response.harga_beli);
 	             $('#temphargabeli').val(response.harga_beli);
 
-	             $('#fharga').autoNumeric('init', {aSep: '.',aDec:',',aSign:'Rp '});
+	             $('#fharga').autoNumeric('init', {aSep: '.',aDec:',',aSign:'Rp ',mDec:0});
 	            var harga = $('#harga').val();
 	            $('#fharga').autoNumeric('set',harga);
 	           

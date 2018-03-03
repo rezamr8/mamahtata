@@ -110,13 +110,7 @@
 			<input type="hidden" class="form-control form-control-md" id="piutang" name="piutang" required value="{{$orders->piutang}}" required readonly>
 		</div>	    
 	</div>
-	{{-- <div class="form-group row">
-		<label for="bayar" class="col-md-2 col-form-label col-form-label-md font-weight-bold">BAYAR</label>
-		<div class="col-md-8">
-			<input type="text" class="form-control form-control-md" id="fbayar" required>
-			<input type="hidden" class="form-control form-control-md" id="piutang" name="piutang" required value="{{$orders->piutang}}" required readonly>
-		</div>	    
-	</div> --}}
+	
 
 	<div class="form-group">
 		<button class="btn btn-primary" type="submit">Save</button>
@@ -139,7 +133,7 @@
              aSep: '.', 
              aDec: ',', 
              aSign: 'Rp ',
-             mDec:'0'
+             mDec: 0
             };
         $('#fgrandtotal,#fuangmuka,#fpiutang').autoNumeric('init', rupiah);
         
@@ -161,6 +155,12 @@
 			$('#piutang').val(sum);
 	        
 	    });
+	    $('#fuangmuka').dblclick(function(){
+	    	var total = $('#grandtotal').val();
+	    	$('#uangmuka').val(total);
+	    	$('#fuangmuka').autoNumeric('set',total);
+
+	    });
 
 	    $('#fpiutang').bind('blur focusout keypress keyup', function () {
 	        var a = $('#fpiutang').autoNumeric('get');
@@ -168,12 +168,7 @@
 	        
 	    });
 
-		// $('#cetak').click(function(e){
-		// 	e.preventDefault();
-		// 	$.get("{{ url('admin/orders/printbayar/'.$orders->id) }}", function(data){
-		// 		console.log(data);
-		// 	});
-		// });
+		
 
 		$('#cetak').click(function(e){
 			e.preventDefault();
