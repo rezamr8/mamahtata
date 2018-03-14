@@ -147,8 +147,8 @@ class OrderController extends Controller
        
         $fpiutang = $request->input('fpiutang');
       
-        //$ip = 'localhost'; 
-        $ip = '192.168.43.140'; 
+        $ip = 'localhost'; 
+        //$ip = '192.168.43.140'; 
         $printer = 'EPSON TM-U220 Receipt'; // Nama Printer yang di sharing
         $connector = new WindowsPrintConnector("smb://" . $ip . "/" . $printer);
 
