@@ -27,7 +27,7 @@ class ReportController extends Controller
         $keyword = $request->get('search');
         $perPage = 25;
 
-        $order = Order::with('customer')->orderBy('created_at','desc')->paginate($perPage);
+        $order = Order::with('customer')->orderBy('created_at','desc')->whereDay('created_at', '=', date('d'))->paginate($perPage);
         return view('admin.report.index',compact('order'));
     }
 
@@ -92,7 +92,7 @@ class ReportController extends Controller
     public function stok()
     {
         $perPage = 25;
-        $stok = OrderDetail::with('product')->orderBy('created_at','desc')->paginate($perPage);
+        $stok = OrderDetail::with('product')->orderBy('created_at','desc')->whereDay('created_at', '=', date('d'))->paginate($perPage);
 
         return view('admin.report.stok',compact('stok'));
     }

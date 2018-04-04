@@ -52,10 +52,10 @@
 			    <label for="harga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">HARGA</label>
 			    <div class="col-md-3">
 			      <input type="text" class="form-control form-control-md" id="fharga" readonly>
-			      <input type="text" class="form-control form-control-md" id="tempharga" name="tempharga" >
-			      <input type="text" class="form-control form-control-md" id="harga" name="harga" >
-			      <input type="text" class="form-control form-control-md" id="temphargabeli" name="temphargabeli" >
-			      <input type="text" class="form-control form-control-md" id="hargabeli" name="hargabeli" >
+			      <input type="hidden" class="form-control form-control-md" id="tempharga" name="tempharga" >
+			      <input type="hidden" class="form-control form-control-md" id="harga" name="harga" >
+			      <input type="hidden" class="form-control form-control-md" id="temphargabeli" name="temphargabeli" >
+			      <input type="hidden" class="form-control form-control-md" id="hargabeli" name="hargabeli" >
 			    </div>
 			 	<label for="discount" class="col-md-2 col-form-label col-form-label-md font-weight-bold"> DISCOUNT</label>
 			    <div class="col-md-3">

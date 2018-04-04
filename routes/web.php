@@ -13,6 +13,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::post('/products/{id}','ProductController@update');
 
 	Route::get('/orders', ['uses'=>'OrderController@index','as' => 'orders.index']);
+	Route::get('/orders/belumlunas', ['uses'=>'OrderController@belumlunas','as' => 'orders.belumlunas']);
 	Route::get('/orders/create', ['uses'=>'OrderController@create','as' => 'orders.create']);
 	Route::get('/orders/{id}/edit', ['uses'=>'OrderController@edit','as' => 'orders.edit']);
 	Route::get('/orders/{id}/bayar', ['uses'=>'OrderController@bayar','as' => 'orders.bayar']);
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
 	Route::delete('orders/{id}/produk/{idproduk}', ['uses'=>'OrderController@hapusProduk', 'as'=>'ordersdetail.hapus']);
 	//datatable
 	Route::get('/orders/data',['uses'=>'OrderController@getMasterData', 'as' => 'orders.data']);
+	Route::get('/orders/datalunas',['uses'=>'OrderController@getBelumLunas', 'as' => 'orders.datalunas']);
 	Route::get('/orders/datadetail/{id}',['uses'=>'OrderController@getDetailsData', 'as' => 'orders.detail']);
 
 	// user

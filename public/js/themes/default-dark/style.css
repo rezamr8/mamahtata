@@ -54,6 +54,7 @@
 }
 .jstree .jstree-open > .jstree-children {
   display: block;
+  margin-left: 20px;
 }
 .jstree .jstree-closed > .jstree-children,
 .jstree .jstree-leaf > .jstree-children {

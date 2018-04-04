@@ -59,7 +59,7 @@ class CustomerController extends Controller
         $this->validate(request(),[
 
             'nama' => 'required|max:30',
-            'alamat' => 'required',
+            //'alamat' => 'required',
             'no_hp' => 'required'
 
         ]);

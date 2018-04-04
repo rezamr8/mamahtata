@@ -45,7 +45,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Zain Print') }}
+                        {{ config('app.name', 'NAZMA MEDIA') }}
                     </a>
                 </div>
 
@@ -60,7 +60,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -160,10 +160,24 @@
         @endif
     </script>
     <script>
+        var treeview = $("#jstree");
+        treeview.bind("loaded.jstree", function (event, data) {
+        treeview.jstree("open_all");
+    });
+        
          $('#jstree').jstree({
             'plugins':["wholerow"]
               })
-         .bind("select_node.jstree", function (e, data) { document.location.href = data.node.a_attr.href; });
+         .bind("select_node.jstree", function (e, data) { 
+            
+            document.location.href = data.node.a_attr.href; 
+
+        });
+
+          $(".list-group a").dblclick(function(){
+               $(".list-group").find(".active").removeClass("active");
+               $(this).parent().addClass("active");
+            });
     </script>
 </body>
 </html>

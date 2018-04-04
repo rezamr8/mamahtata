@@ -20,7 +20,7 @@ class OrderController extends Controller
 {
 
     public function __construct() {
-        $this->middleware(['auth','clearance'])->except(['getMasterData','getDetailsData']);
+        $this->middleware(['auth','clearance'])->except(['getMasterData','getDetailsData','getBelumLunas']);
    
     }
 
@@ -29,6 +29,13 @@ class OrderController extends Controller
     {    	
 
         return view('admin.orders.index');
+        
+    }
+
+     public function belumlunas()
+    {       
+
+        return view('admin.orders.belumlunas');
         
     }
 
@@ -260,8 +267,8 @@ class OrderController extends Controller
 
         $order->update();
         Session::flash('success', 'data Telah di Update' );
-        return redirect()->route('orders.index');
-
+        //return redirect()->route('orders.index');
+        return back();
     }
 
 
@@ -340,7 +347,33 @@ class OrderController extends Controller
     public function getMasterData()
     {
         //$orders = \App\Order::select();
-        $orders = \App\Order::with(['customer'])->select('orders.*');
+        $orders = \App\Order::with(['customer'])->select('orders.*')->where('piutang',0);
+
+        return Datatables::of($orders)
+            ->filterColumn('customer', function($query, $keyword) {
+                $query->whereRaw("CONCAT(customer.nama,'-',customer.nama) like ?", ["%{$keyword}%"]);
+            })
+            ->addColumn('details_url', function($order) {
+                return url('admin/orders/datadetail/' . $order->id);
+               // return route('orders.detail'). $order->id;
+            })
+            ->addColumn('action', 'layouts.action')
+            ->addColumn('piutang', function($order){
+                if($order->piutang == 0)
+                {
+                    return '<span class="btn btn-xs btn-success"><i class="fa fa-money"></i>lunas</span>';
+                }
+                return $order->piutang;
+            })
+            ->rawColumns(['action','piutang'])
+            
+            ->make(true);
+    }
+
+    public function getBelumLunas()
+    {
+        //$orders = \App\Order::select();
+        $orders = \App\Order::with(['customer'])->select('orders.*')->where('piutang','>',0);
 
         return Datatables::of($orders)
             ->filterColumn('customer', function($query, $keyword) {

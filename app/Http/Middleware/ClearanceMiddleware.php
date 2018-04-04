@@ -39,6 +39,15 @@ class ClearanceMiddleware {
             }
         }
 
+        if ($request->is('admin/orders/*/produk/*')) //If user is editing a orders
+         {
+            if (!Auth::user()->hasPermissionTo('setting')) {
+                abort('401');
+            } else {
+                return $next($request);
+            }
+        }
+
         if ($request->isMethod('Delete')) //If user is deleting a orders
          {
             if (!Auth::user()->hasPermissionTo('Administrator')) {

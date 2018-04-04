@@ -21,8 +21,7 @@
 
                 <th>PIUTANG</th>
                 <th>ACTION</th>
-                {{-- <th>Created At</th>
-                <th>Updated At</th> --}}
+                
             </tr>
         </thead>
     </table>
@@ -39,7 +38,7 @@ $(function() {
     var table = $('#orders-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: 'orders/data',
+        ajax: '/admin/orders/datalunas',
         columns: [
         	{
                 "className":      'details-control',

@@ -48,15 +48,19 @@
 								
 							</tr>
 							@endforeach
-							<td colspan="2" class="text-center">Total Pemasukan</td>
+              <td> {{$stok->links()}}</td>
+							<td >Total Keluar Barang</td>
 							<td class="out"></td>
               @hasrole('admin')
 							<td class="total"></td>
               @endhasrole
 						</tbody>
+
 					</table>
 			</div>
+
 		</div>
+    
 
 	</div>
 	</form>
@@ -93,7 +97,7 @@
       $('.total').append('<input type="hidden" name="total" id="total" value="'+trupiah+'">');
 
        $('#tborder tbody .tdout').each(function() {
-        out += parseInt($(this).text());
+        out += parseFloat($(this).text());
       })
       $('.out').html(out+'<input type="hidden" name="out" id="out" value="'+out+'">');
 

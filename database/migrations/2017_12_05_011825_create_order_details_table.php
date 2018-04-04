@@ -17,9 +17,9 @@ class CreateOrderDetailsTable extends Migration
             $table->increments('id');
             $table->integer('order_id')->unsigned();
             $table->integer('product_id');
-            $table->integer('panjang');
-            $table->integer('lebar');
-            $table->integer('luas');
+            $table->float('panjang');
+            $table->float('lebar');
+            $table->float('luas');
             $table->double('harga');
             $table->double('discount')->nullable();
             $table->integer('jumlah');

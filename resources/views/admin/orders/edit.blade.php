@@ -137,7 +137,9 @@
 							<th align="center">SETTING</th>
 							<th align="center">TOTAL</th>
 							<th align="center">KETERANGAN</th>
+							@if($orders->piutang > 0)
 							<th align="center"><a href="#" class="btn btn-primary" id="btnTambah">ADD</a></th>
+							@endif
 						</tr>
 					</thead>
 					<tbody>
@@ -154,6 +156,7 @@
 							<td class="tdbiayasetting"><input type="hidden" name="tdbiayasetting[]" value="{{ $order->biaya_setting}}" id="tdbiayasetting">{{ $order->biaya_setting }}</td>
 							<td class="tdtotal"><input type="hidden" name="tdtotharga[]" value="{{$order->sub_total}}">{{$order->sub_total}}</td>
 							<td><input type="hidden" name="tdketerangan[]" value="{{$order->keterangan}}">{{$order->keterangan}}</td>
+							@if($orders->piutang > 0)
 							<td>
 								
 
@@ -162,6 +165,7 @@
 
 
 							</td>
+							@endif
 						</tr>
 						@endforeach
 						@else
@@ -317,7 +321,7 @@ $(function(){
 	            $('#fharga').autoNumeric('set',harga);
 			},
 			error: function (xhr, ajaxOptions, thrownError) { 
-				alert(thrownError); 
+				//alert(thrownError); 
 			}
 		});
 
