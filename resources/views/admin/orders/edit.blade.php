@@ -270,6 +270,11 @@ $(function(){
 			luas = 1;
 		}
 		$('#luas').val(luas);
+		$('#jumlah').val('');
+		$('#ftotharga').val('');
+		$('#totharga').val('');
+		$('#tothargabeli').val('');
+		$('#keuntungan').val('');
 		
 		$('#fhargasatuan').autoNumeric('init', rupiah);
 		hargasatuan = $('#harga').val();

@@ -52,8 +52,8 @@
             <tr>
               <td>{{$o->customer->nama}}</td>
               <td>{{$o->no_order}}</td>
-              <td>{{ number_format($o->uang_muka) }}</td>
-              <td>{{ number_format($o->total_biaya_setting) }}</td>
+              <td class="tduangmuka">{{ $o->uang_muka }}</td>
+              <td class="tdbiayasetting">{{ $o->total_biaya_setting }}</td>
               <td class="tdtotal">{{ $o->grand_total }}</td>
               <td class="tdpiutang">{{ $o->piutang }}</td>
               @hasrole('admin')
@@ -66,8 +66,9 @@
               <td colspan="8"></td>
             </tr>
             <tr>
-              <td colspan="4" class="text-center">Total Pemasukan</td>
-              
+              <td colspan="2" class="text-center">Total Pemasukan</td>
+              <td class="totaluangmuka"></td>
+              <td class="biayasetting"></td>
               <td class="total"></td>
               <td class="piutang"></td>
               @hasrole('admin')
@@ -78,6 +79,7 @@
             
           </tbody>
         </table>
+        note : subtotal ( barang tambah jasa biaya setting)
         <div class="pull-right">
           {{ $order->links() }}
         </div>
@@ -100,32 +102,57 @@
       var total = 0;
       var piutang = 0;
       var untung = 0;
+      var totaluangmuka =0;
+      var biayasetting=0;
       var rupiah = {
              aSep: '.', 
              aDec: ',',
              mDec: '0', 
              aSign: 'Rp '
             };
-      $('.tdtotal,.total,.tdpiutang,.piutang,.tduntung,.untung').autoNumeric('init',rupiah);
+      $('.tdtotal,.total,.tdpiutang,.piutang,.tduntung,.untung,.tduangmuka,.totaluangmuka,.biayasetting').autoNumeric('init',rupiah);
+      /* RUMUS PERHITUNGAN TOTAL*/
       $('#tborder tbody .tdtotal').each(function() {
         total += parseInt($(this).text().replace(/[^0-9]/g, ''));
       })
-    
-      
       $('.total').html(total+'<input type="hidden" name="total" id="total" value="'+total+'">');
       $('.total').autoNumeric('set',total);
       var trupiah = $('.total').text();
       $('.total').append('<input type="hidden" name="total" id="total" value="'+trupiah+'">');
+      /* END RUMUS PERHITUNGAN TOTAL*/
 
+      /* RUMUS PERHITUNGAN TOTAL UANG MUKA*/
+       $('#tborder tbody .tduangmuka').each(function() {
+        totaluangmuka += parseInt($(this).text().replace(/[^0-9]/g, ''));
+      })
+       $('.totaluangmuka').html(totaluangmuka+'<input type="hidden" name="totaluangmuka" id="totaluangmuka" value="'+totaluangmuka+'">');
+      $('.totaluangmuka').autoNumeric('set',totaluangmuka);
+      var trupiah = $('.totaluangmuka').text();
+      $('.totaluangmuka').append('<input type="hidden" name="totaluangmuka" id="totaluangmuka" value="'+trupiah+'">');
+       /* END RUMUS PERHITUNGAN TOTAL UANG MUKA*/
 
+       /* RUMUS PERHITUNGAN TOTAL BIAYA SETTING*/
+       $('#tborder tbody .tdbiayasetting').each(function() {
+        biayasetting += parseInt($(this).text().replace(/[^0-9]/g, ''));
+      })
+       $('.biayasetting').html(biayasetting+'<input type="hidden" name="biayasetting" id="biayasetting" value="'+biayasetting+'">');
+      $('.biayasetting').autoNumeric('set',biayasetting);
+      var trupiah = $('.biayasetting').text();
+      $('.biayasetting').append('<input type="hidden" name="biayasetting" id="biayasetting" value="'+trupiah+'">');
+       /* END RUMUS PERHITUNGAN TOTAL BIAYA SETTING*/
+
+        /* RUMUS PERHITUNGAN TOTAL PIUTANG*/
       $('#tborder tbody .tdpiutang').each(function() {
         piutang += parseInt($(this).text().replace(/[^0-9]/g, ''));
-      })
+        if (piutang > 0 ) $(this).parent().css({"background-color": "yellow"});
+      });
       $('.piutang').html(piutang+'<input type="hidden" name="piutang" id="piutang" value="'+piutang+'">');
       $('.piutang').autoNumeric('set',piutang);
       var trupiah = $('.piutang').text();
       $('.piutang').append('<input type="hidden" name="piutang" id="piutang" value="'+trupiah+'">');
-      
+       /* END RUMUS PERHITUNGAN TOTAL PIUTANG*/
+
+        /* RUMUS PERHITUNGAN TOTAL UNTUNG*/
        $('#tborder tbody .tduntung').each(function() {
         untung += parseInt($(this).text().replace(/[^0-9]/g, ''));
       })
@@ -133,6 +160,8 @@
       $('.untung').autoNumeric('set',untung);
       var trupiah = $('.untung').text();
       $('.untung').append('<input type="hidden" name="untung" id="untung" value="'+trupiah+'">');
+
+       /* END RUMUS PERHITUNGAN TOTAL UNTUNG*/
 
     }
 
@@ -178,95 +207,7 @@
      }
    });
 
-   // $('#exportPDF').click(function(){
-   //   console.log('click pdf');
-   //   var from_date = $('#from_date').val();
-   //   var to_date = $('#to_date').val();
-   //   var total = $('.total').text();
-   //   console.log(from_date);
-
-   //   if( from_date != '' && to_date != ''){
-
-   //     $.ajaxSetup({
-   //      headers: {
-   //       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-   //     }
-   //   });
-
-   //     // $.ajax({
-   //     //   url:"{{ route('report.pdf') }}",
-   //     //   method:"POST",
-   //     //   data:{from_date:from_date,to_date:to_date},
-   //     //   success:function(data)
-   //     //   {
-   //     //     console.log(data);
-   //     //     // $('#orderFilter').empty().html(data);
-   //     //     // hitung();
-   //     //   }
-   //     // });
-
-   //        $.ajax({
-   //          cache: false,
-   //          type: "POST",
-   //          url: "{{ route('report.pdf') }}",
-   //          contentType: false,
-   //          processData: false,
-   //          data:{from_date:from_date,to_date:to_date},
-   //           //xhrFields is what did the trick to read the blob to pdf
-   //          xhrFields: {
-   //              responseType: 'blob'
-   //          },
-   //          success: function (response, status, xhr) {
-
-   //              var filename = "";                   
-   //              var disposition = xhr.getResponseHeader('Content-Disposition');
-
-   //               if (disposition) {
-   //                  var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-   //                  var matches = filenameRegex.exec(disposition);
-   //                  if (matches !== null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-   //              } 
-   //              var linkelem = document.createElement('a');
-   //              try {
-   //                  var blob = new Blob([response], { type: 'application/octet-stream' });                        
-
-   //                  if (typeof window.navigator.msSaveBlob !== 'undefined') {
-   //                      //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-   //                      window.navigator.msSaveBlob(blob, filename);
-   //                  } else {
-   //                      var URL = window.URL || window.webkitURL;
-   //                      var downloadUrl = URL.createObjectURL(blob);
-
-   //                      if (filename) { 
-   //                          // use HTML5 a[download] attribute to specify filename
-   //                          var a = document.createElement("a");
-
-   //                          // safari doesn't support this yet
-   //                          if (typeof a.download === 'undefined') {
-   //                              window.location = downloadUrl;
-   //                          } else {
-   //                              a.href = downloadUrl;
-   //                              a.download = filename;
-   //                              document.body.appendChild(a);
-   //                              a.target = "_blank";
-   //                              a.click();
-   //                          }
-   //                      } else {
-   //                          window.location = downloadUrl;
-   //                      }
-   //                  }   
-
-   //              } catch (ex) {
-   //                  console.log(ex);
-   //              } 
-   //          }
-   //      });
-
-
-   //   }else{
-   //     alert('isi dahulu tanggal nya');
-   //   }
-   // })
+   
 
 
 
