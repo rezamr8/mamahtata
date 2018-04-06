@@ -143,8 +143,12 @@
 
         /* RUMUS PERHITUNGAN TOTAL PIUTANG*/
       $('#tborder tbody .tdpiutang').each(function() {
+       
+        if(parseInt($(this).text().replace(/[^0-9]/g, '')) > 0 )
+        {
+         $(this).parent().css({"background-color": "yellow"});
+        }
         piutang += parseInt($(this).text().replace(/[^0-9]/g, ''));
-        if (piutang > 0 ) $(this).parent().css({"background-color": "yellow"});
       });
       $('.piutang').html(piutang+'<input type="hidden" name="piutang" id="piutang" value="'+piutang+'">');
       $('.piutang').autoNumeric('set',piutang);
