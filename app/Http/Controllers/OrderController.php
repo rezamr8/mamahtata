@@ -123,7 +123,7 @@ class OrderController extends Controller
         }
         
         Session::flash('success', 'data anda telah di simpan' );
-        return redirect()->route('orders.index');      
+        return redirect()->route('orders.belumlunas');      
     }
 
     public function edit($id)
@@ -296,7 +296,7 @@ class OrderController extends Controller
 
         $order->update();
         Session::flash('success', 'Transaksi Pembayaran Sukses' );
-        OrderController::printbayar($request,$id);
+        //OrderController::printbayar($request,$id);
         return back();
        
        
