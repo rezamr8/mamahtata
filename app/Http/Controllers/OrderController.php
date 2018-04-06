@@ -123,7 +123,7 @@ class OrderController extends Controller
         }
         
         Session::flash('success', 'data anda telah di simpan' );
-        return redirect()->route('orders.index');      
+        return redirect()->route('orders.belumlunas');      
     }
 
     public function edit($id)
@@ -274,7 +274,11 @@ class OrderController extends Controller
 
     public function updateBayar(Request $request, $id)
     {
-       
+       if (request('uangmuka') == 0 || is_null(request('uangmuka')) )
+       {
+        Session::flash('info', 'DP / Pembayaran Harus di isi' );
+        return back();
+       }else{
         $order = Order::findOrFail($id);
         $order->total_produk = $request->input('totalproduk');
         
@@ -296,9 +300,9 @@ class OrderController extends Controller
 
         $order->update();
         Session::flash('success', 'Transaksi Pembayaran Sukses' );
-        OrderController::printbayar($request,$id);
+        //OrderController::printbayar($request,$id);
         return back();
-       
+       }
        
 
     }
