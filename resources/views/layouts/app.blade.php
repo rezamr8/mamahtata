@@ -17,16 +17,25 @@
     <link rel="stylesheet" href="{{ asset('css/datatables.bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
 
-
-    {{-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/> --}}
-    {{-- <link href="https://datatables.yajrabox.com/css/datatables.bootstrap.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"  />
 
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/themes/default-dark/style.css') }}">
 
-    {{-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> --}}
+  <script>
+      window.oncontextmenu = function () {
+        return false;
+        }
+        $(document).keydown(function (event) {
+        if (event.keyCode == 123) {
+        return false;
+        }
+        else if ((event.ctrlKey && event.shiftKey && event.keyCode == 73) || (event.ctrlKey && event.shiftKey && event.keyCode == 74)) {
+        return false;
+        }
+    });
+  </script>
     
 </head>
 <body>
