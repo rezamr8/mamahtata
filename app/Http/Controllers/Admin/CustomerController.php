@@ -67,8 +67,9 @@ class CustomerController extends Controller
         $requestData = $request->all();
         
         Customer::create($requestData);
+        return back()->with('flash_message', 'Customer added!');
 
-        return redirect('admin/customer')->with('flash_message', 'Customer added!');
+        //return redirect('admin/customer')->with('flash_message', 'Customer added!');
     }
 
     /**

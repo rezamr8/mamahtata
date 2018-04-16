@@ -4,6 +4,27 @@
 <div class="container">
 @include('admin.sidebar')
 <div class="col-md-9">
+
+{{-- modal Customer  --}}
+	<div class="modal fade" id="form-modal" tabindex="8" role="dialog" aria-labelledby="form-modal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="form-modal">Customer</h4>
+            </div>
+            <div class="modal-body" >
+               <form method="POST" action="{{ url('/admin/customer') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+
+                            @include ('admin.customer.form')
+
+                        </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- end modal customer --}}
 <form action="{{ route('orders.store') }}" method="POST">
 	{{ csrf_field() }}
 	
@@ -19,7 +40,11 @@
 						<option value="{{ $key }}" class="form-control form-control-md">{{ $customer }}</option>
 						@endforeach
 					</select> 
-				</div>	    
+				</div>	  
+				<button class="btn btn-info load-form-modal" data-url="{{ route('customer.create') }}" data-toggle ="modal" data-target='#form-modal' >
+                        ADD CUSTOMER
+                    </button>
+
 			</div>
 			<div class="form-group row">
 				<label for="nohp" class="col-md-2 col-form-label col-form-label-md font-weight-bold" >HANDPHONE</label>
@@ -65,6 +90,12 @@
 
 			</div>
 
+			<div class="form-group row">
+			    <label for="jumlah" class="col-md-2 col-form-label col-form-label-md font-weight-bold">JUMLAH</label>
+			    <div class="col-md-2">
+			      <input type="text" class="form-control form-control-md" id="jumlah" name="jumlah" >
+			    </div>	    
+			</div>
 
 			<div class="form-group controls row">
 				<label for="panjang" class="col-md-2 font-weight-bold">PANJANG</label>
@@ -82,11 +113,7 @@
 				<div class="col-md-3">
 					<input type="text" class="form-control form-control-md" id="luas" name="luas" required readonly>
 				</div>
-				<label for="hargasatuan" class="col-md-2 font-weight-bold">TOTAL HARGA</label>
-				<div class="col-md-4">
-					<input type="text" class="form-control form-control-md" id="fhargasatuan" required readonly>
-					<input type="hidden" class="form-control form-control-md" id="hargasatuan" name="hargasatuan" required readonly>
-				</div>
+				
 				
 				<div class="col-md-2">
 					<input type="hidden" class="form-control form-control-md" id="thbeli" name="thbeli" required readonly>
@@ -95,12 +122,7 @@
 
 			
 
-			<div class="form-group row">
-			    <label for="jumlah" class="col-md-2 col-form-label col-form-label-md font-weight-bold">JUMLAH</label>
-			    <div class="col-md-2">
-			      <input type="text" class="form-control form-control-md" id="jumlah" name="jumlah" >
-			    </div>	    
-			</div>
+			
 
 			<div class="form-group row">
 			    <label for="totharga" class="col-md-2 col-form-label col-form-label-md font-weight-bold">TOTAL HARGA</label>
@@ -232,30 +254,27 @@ $(function(){
 	{
 		var panjang = $('#panjang').val();
 		var lebar = $('#lebar').val();
+		var jumlah = $('#jumlah').val();
 		var luas = 0;
-		var hargasatuan = 0;
+		var totharga = 0;
 		var thbeli = 0;
 
-		luas = panjang * lebar;
+		luas = (panjang * lebar) * jumlah;
 
 		if (luas <= 1) {
 			luas = 1;
 		}
 		$('#luas').val(luas);
-		$('#jumlah').val('');
-		$('#ftotharga').val('');
-		$('#totharga').val('');
-		$('#tothargabeli').val('');
-		
-		$('#fhargasatuan').autoNumeric('init', rupiah);
-		hargasatuan = $('#harga').val();
-		hargasatuan = hargasatuan*luas;
-		$('#hargasatuan').val(hargasatuan);
-		$('#fhargasatuan').autoNumeric('set',hargasatuan);
+		$('#ftotharga').autoNumeric('init', rupiah);
+		totharga = $('#harga').val();
+		totharga = totharga*luas;
+		$('#totharga').val(totharga);
+		$('#ftotharga').autoNumeric('set',totharga);
 
 		thbeli = $('#hargabeli').val();
 		thbeli = thbeli*luas;
 		$('#thbeli').val(thbeli);
+		$('#tothargabeli').val(thbeli);
 	}
 
 	$('#panjang').keyup(function(){ ukurluas() });
@@ -319,16 +338,20 @@ $(function(){
 	});
 
 	$('#jumlah').keyup(function(){
-		var jumlah = $('#jumlah').val();
-		var hargasatuan = $('#hargasatuan').val();
-		var thbeli = $('#thbeli').val();
-		var disc = $('#disc').val();
-		var totharga= (jumlah * hargasatuan);
-		var tothargabeli = (jumlah * thbeli);
-		$('#totharga').val(totharga);
-		$('#tothargabeli').val(tothargabeli);
-		$('#ftotharga').autoNumeric('init', rupiah);
-		$('#ftotharga').autoNumeric('set', totharga);
+		
+
+		$('#panjang').val('');
+		$('#lebar').val('');
+		$('#luas').val('');
+		$('#hargasatuan').val('');
+		$('#fhargasatuan').val('');
+		$('#thbeli').val('');
+
+		$('#ftotharga').val('');
+		$('#totharga').val('');
+		$('#tothargabeli').val('');
+		$('#biayasetting').val('');
+		$('#fbiayasetting').val('');
 	});
 
 	
